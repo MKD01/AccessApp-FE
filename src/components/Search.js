@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-const Search = () => {
+const Search = ({ setSearchResult }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -11,6 +10,7 @@ const Search = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`submitting ${searchTerm}`); // <--------------------
+    setSearchResult(searchTerm);
     setSearchTerm("");
   };
 

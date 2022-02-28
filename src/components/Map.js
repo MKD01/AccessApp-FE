@@ -1,12 +1,17 @@
-import React, { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import geoJsonData from "../data/manchesterBigData.json";
 import Clusters from "./Clusters";
 import { UserContext } from "../contexts/User.js";
 import NotLoggedInError from "./NotLoggedInError";
+import Search from "./Search";
 
 function MainMap() {
+  const [searchResult, setSearchResult] = useState("");
+
+  console.log(searchResult);
+
   const { isLoggedIn } = useContext(UserContext);
   const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
@@ -19,6 +24,7 @@ function MainMap() {
   if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
+        <Search setSearchResult={setSearchResult} />
         <MapContainer
           className='leaflet-container'
           center={[53.483959, -2.244644]}
@@ -28,7 +34,7 @@ function MainMap() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
-          <Clusters data={geoJsonData.features} />
+          <Clusters data={geoJsonData.features} searchResult={searchResult} />
         </MapContainer>
       </>
     );
