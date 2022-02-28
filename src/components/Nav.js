@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/User.js";
+import Search from "./Search.js";
 
 const Nav = () => {
   const { setLoggedInUser, isLoggedIn } = useContext(UserContext);
@@ -25,6 +26,7 @@ const Nav = () => {
       <>
         <h1>App logo and name here</h1>
         <button onClick={() => handleLogout()}>Log out</button>
+        <Search />
       </>
     );
   } else {

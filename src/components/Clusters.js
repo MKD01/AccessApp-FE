@@ -42,19 +42,19 @@ const Clusters = ({ data }) => {
         const pos = [];
 
         if (Array.isArray(point.geometry.coordinates[0])) {
-          pos.push(...point.geometry.coordinates[0]);
-          let obj = {
-            type: "Feature",
-            properties: {
-              cluster: false,
-              placeId: point.properties.placeId,
-              placeName: point.properties.name,
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [...pos],
-            },
-          };
+          pos.push(
+            Array.isArray(point.geometry.coordinates[0][0])
+              ? Array.isArray(point.geometry.coordinates[0][0][0])
+                ? [
+                    point.geometry.coordinates[0][0][1],
+                    point.geometry.coordinates[0][0][0],
+                  ]
+                : [
+                    point.geometry.coordinates[0][1],
+                    point.geometry.coordinates[0][0],
+                  ]
+              : [point.geometry.coordinates[1], point.geometry.coordinates[0]]
+          );
 
           return <></>;
         } else {
