@@ -16,12 +16,6 @@ function MainMap() {
   const { isLoggedIn } = useContext(UserContext);
   const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
-  const onEachNode = (node, layer) => {
-    const nodeName = node.properties.name;
-
-    layer.bindPopup((nodeName || "Not found") + " ");
-  };
-
   const points = geoJsonData.features.map((place) => {
     return {
       type: "Feature",
@@ -45,8 +39,11 @@ function MainMap() {
           className='leaflet-container'
           center={[53.483959, -2.244644]}
           zoom={18}
+          maxZoom={20}
         >
           <TileLayer
+            maxNativeZoom={19}
+            maxZoom={20}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
