@@ -11,7 +11,7 @@ import CreateNewComment from "./CreateNewComment.js";
 import LoadingSpin from "./LoadingSpin.js";
 import ConfirmButton from "./ConfirmButton.js";
 
-const CustomModal = ({ show, onClose, id }) => {
+const CustomModal = ({ show, handleClose, id }) => {
   const [venueItems, setVenueItems] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,7 +27,7 @@ const CustomModal = ({ show, onClose, id }) => {
       setVenueItems(res);
       setIsLoading(false);
     });
-  }, [venueItems, id]);
+  }, [id]);
 
   function average(array) {
     let total = 0;
@@ -58,7 +58,15 @@ const CustomModal = ({ show, onClose, id }) => {
   return isLoading ? (
     <LoadingSpin />
   ) : (
-    <Modal show={show} onHide={onClose} centered size='lg'>
+    <Modal
+      show={show}
+      onHide={() => {
+        setIsLoading(true);
+        handleClose();
+      }}
+      centered
+      size='lg'
+    >
       <ModalHeader closeButton>
         <ModalTitle>{venueItems.name}</ModalTitle>
       </ModalHeader>
@@ -107,7 +115,13 @@ const CustomModal = ({ show, onClose, id }) => {
         <CreateNewComment id={setId(id)} />
       </ModalBody>
       <ModalFooter>
-        <Button variant='primary' onClick={onClose}>
+        <Button
+          variant='primary'
+          onClick={() => {
+            setIsLoading(true);
+            handleClose();
+          }}
+        >
           Close
         </Button>
       </ModalFooter>
