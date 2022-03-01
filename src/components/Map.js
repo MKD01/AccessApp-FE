@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import geoJsonData from "../data/manchesterSmallData.json";
 import { UserContext } from "../contexts/User.js";
 import NotLoggedInError from "./NotLoggedInError";
@@ -8,9 +8,13 @@ import Search from "./Search";
 import PointsCluster from "./PointsCluster";
 import { CoordinatesRefactoring } from "../utils/DataRefactoring";
 import UserLocation from "./UserLocation";
+import UserLocationButtons from "./UserLocationButtons";
 
 function MainMap() {
+  const [userLocationVisibility, setUserLocationVisibility] = useState(true);
   const [searchResult, setSearchResult] = useState("");
+
+  const userPos = [53.4833, -2.24478];
 
   console.log(searchResult);
 
@@ -36,6 +40,7 @@ function MainMap() {
     return (
       <>
         <Search setSearchResult={setSearchResult} />
+
         <MapContainer
           className='leaflet-container'
           center={[53.483959, -2.244644]}
@@ -48,7 +53,11 @@ function MainMap() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
-          <UserLocation />
+          <UserLocationButtons
+            pos={userPos}
+            setUserLocationVisibility={setUserLocationVisibility}
+          />
+          {userLocationVisibility ? <UserLocation pos={userPos} /> : <></>}
           <PointsCluster points={points} searchResult={searchResult} />
         </MapContainer>
       </>

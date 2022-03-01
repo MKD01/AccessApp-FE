@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Circle, Marker, useMap } from "react-leaflet";
+import { Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import userIconImg from "../img/UserIcon.png";
 
-const UserLocation = () => {
+const UserLocation = ({ pos }) => {
   const [zoom, setZoom] = useState(19);
 
-  const pos = [53.4833, -2.24478];
   const map = useMap();
 
   const onZoom = useCallback(() => {
@@ -15,12 +14,12 @@ const UserLocation = () => {
 
   useEffect(() => {
     map.on("zoom", onZoom);
-  });
+  }, [onZoom, map]);
 
   const userLocationIcon = new L.Icon({
     iconURL: userIconImg,
     iconRetinaUrl: userIconImg,
-    iconSize: [35, 45],
+    iconSize: [30, 43],
   });
 
   return zoom > 13 ? (
@@ -32,7 +31,9 @@ const UserLocation = () => {
       }}
       icon={userLocationIcon}
       position={pos}
-    ></Marker>
+    >
+      <Popup>You Location</Popup>
+    </Marker>
   ) : (
     <></>
   );
