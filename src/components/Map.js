@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MapContainer, TileLayer } from "react-leaflet";
-import geoJsonData from "../data/manchesterBigData.json";
-import Clusters from "./Clusters";
+import geoJsonData from "../data/manchesterSmallData.json";
 import { UserContext } from "../contexts/User.js";
 import NotLoggedInError from "./NotLoggedInError";
 import Search from "./Search";
+import PointsCluster from "./PointsCluster";
+import { CoordinatesRefactoring } from "../utils/DataRefactoring";
 
 function MainMap() {
   const [searchResult, setSearchResult] = useState("");
@@ -21,6 +22,21 @@ function MainMap() {
     layer.bindPopup((nodeName || "Not found") + " ");
   };
 
+  const points = geoJsonData.features.map((place) => {
+    return {
+      type: "Feature",
+      properties: {
+        cluster: false,
+        placeId: place.id,
+        placeName: place.properties.name,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: CoordinatesRefactoring(place.geometry.coordinates),
+      },
+    };
+  });
+
   if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
@@ -34,7 +50,7 @@ function MainMap() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
-          <Clusters data={geoJsonData.features} searchResult={searchResult} />
+          <PointsCluster points={points} searchResult={searchResult} />
         </MapContainer>
       </>
     );
