@@ -13,9 +13,9 @@ function App() {
     <BrowserRouter>
       <Nav />
       <Routes>
-        <Route path='/' element={<Login />}></Route>
-        <Route path='/map' element={<MainMap />}></Route>
-        <Route path='*' element={<ErrorPage />} />
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/map" element={<MainMap />}></Route>
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

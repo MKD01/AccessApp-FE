@@ -30,7 +30,7 @@ const PointsCluster = ({ points, searchResult }) => {
                       ? point.properties.placeName
                       : "No Name Found"}
                     <button
-                      className='popup-button'
+                      className="popup-button"
                       onClick={() => setShow(true)}
                     >
                       More Info
@@ -55,14 +55,17 @@ const PointsCluster = ({ points, searchResult }) => {
                 ]}
               >
                 <Popup>
-                  {point.properties.placeName
-                    ? point.properties.placeName
-                    : "No Name Found"}
+                  <h4>
+                    {point.properties.placeName
+                      ? point.properties.placeName
+                      : "No Name Found"}
+                  </h4>
+                  <br></br>
                   <button
-                    className='popup-button'
+                    className="popup-button"
                     onClick={() => setShow(true)}
                   >
-                    More Info
+                    Click for more info
                   </button>
                   <CustomModal
                     show={show}
