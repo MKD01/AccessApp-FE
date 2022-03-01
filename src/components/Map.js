@@ -7,6 +7,7 @@ import NotLoggedInError from "./NotLoggedInError";
 import Search from "./Search";
 import PointsCluster from "./PointsCluster";
 import { CoordinatesRefactoring } from "../utils/DataRefactoring";
+import UserLocation from "./UserLocation";
 
 function MainMap() {
   const [searchResult, setSearchResult] = useState("");
@@ -38,7 +39,7 @@ function MainMap() {
         <MapContainer
           className='leaflet-container'
           center={[53.483959, -2.244644]}
-          zoom={18}
+          zoom={19}
           maxZoom={20}
         >
           <TileLayer
@@ -47,6 +48,7 @@ function MainMap() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
+          <UserLocation />
           <PointsCluster points={points} searchResult={searchResult} />
         </MapContainer>
       </>
