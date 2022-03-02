@@ -26,20 +26,20 @@ const Nav = () => {
   if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg='dark' variant='dark'>
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href='#home'>
               <img
-                alt=""
+                alt=''
                 src={mainLogo}
-                width="50"
-                height="50"
-                className="d-inline-block align-top"
+                width='50'
+                height='50'
+                className='d-inline-block align-top'
               />{" "}
               Inclusive Manchester
             </Navbar.Brand>
             <Navbar.Text>Hi, {username}!</Navbar.Text>
-            <Button variant="secondary" onClick={() => handleLogout()}>
+            <Button variant='secondary' onClick={() => handleLogout()}>
               Logout
             </Button>
           </Container>
@@ -49,7 +49,20 @@ const Nav = () => {
   } else {
     return (
       <>
-        <h1>App logo and name here</h1>
+        <Navbar bg='dark' variant='dark'>
+          <Container>
+            <Navbar.Brand href='#home'>
+              <img
+                alt=''
+                src={mainLogo}
+                width='50'
+                height='50'
+                className='d-inline-block align-top'
+              />{" "}
+              Inclusive Manchester
+            </Navbar.Brand>
+          </Container>
+        </Navbar>
       </>
     );
   }

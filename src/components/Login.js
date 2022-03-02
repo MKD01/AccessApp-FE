@@ -46,27 +46,25 @@ const Login = () => {
   };
 
   return (
-    <div className="loginPage">
+    <div className='loginPage'>
       <main>
-        <br></br>
-        <img src={mainLogo} alt="Inclusive Manchester logo" height="300"></img>
         <p>
           For Demo purposes - Please log in as: <strong>joe</strong>
         </p>
-        <form className="Login__form" onSubmit={handleSubmit}>
-          <label htmlFor="Login__textbox">
+        <form className='Login__form' onSubmit={handleSubmit}>
+          <label htmlFor='Login__textbox'>
             <input
-              type="text"
-              name="Login__textbox"
-              id="Login__textbox"
+              type='text'
+              name='Login__textbox'
+              id='Login__textbox'
               value={newUsername}
               onChange={handleUsernameChange}
-              placeholder="Enter your username"
+              placeholder='Enter your username'
               required
             />
           </label>
           <br></br>
-          <button type="submit">Log in</button>
+          <button type='submit'>Log in</button>
         </form>
       </main>
     </div>
