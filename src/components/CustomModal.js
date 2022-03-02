@@ -24,6 +24,11 @@ const CustomModal = ({ show, handleClose, id }) => {
   const [venueItems, setVenueItems] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
+  const [update, setUpdate] = useState(false);
+  // expandable button
+  const [isOpen, setIsOpen] = useState(false);
+  // confirm button
+  const [confirmCount, setConfirmCount] = useState({});
 
   // user context
   const username = JSON.parse(localStorage.getItem("username"));
@@ -62,6 +67,7 @@ const CustomModal = ({ show, handleClose, id }) => {
       body: newComment,
       total_confirmed_votes: 0,
     };
+
     patchAccessRatingById(setId(id), accessRating).then(() => {
       patchEqualityRatingById(setId(id), equalityRating).then(() => {
         patchAttitudeRatingById(setId(id), attitudeRating).then(() => {
@@ -70,27 +76,42 @@ const CustomModal = ({ show, handleClose, id }) => {
             setEqualityState(null);
             setAttitudeState(null);
             setNewComment("");
+            setUpdate((currVal) => !currVal);
           });
         });
       });
     });
+
+    setIsOpen(false);
   };
 
   useEffect(() => {
+    if (update) {
+      setUpdate((currVal) => !currVal);
+    }
     getVenueInfoById(setId(id)).then((res) => {
       setVenueItems(res);
       setIsLoading(false);
     });
-  }, [id]);
+  }, [id, update]);
 
-  function average(array) {
+  function average(val, arr) {
     let total = 0;
     let count = 0;
 
-    array.forEach(function (item, index) {
-      total += item;
-      count++;
-    });
+    if (!Array.isArray(val)) {
+      arr.push(+val);
+
+      arr.forEach(function (item, index) {
+        total += item;
+        count++;
+      });
+    } else {
+      val.forEach(function (item, index) {
+        total += item;
+        count++;
+      });
+    }
 
     let final = Math.round(total / count);
 
@@ -109,42 +130,6 @@ const CustomModal = ({ show, handleClose, id }) => {
     }
   }
 
-  function accessSwitch(accessStatement) {
-    switch (accessStatement) {
-      case "Yes":
-        return (
-          <>
-            <p>
-              OpenStreetMap data suggests {venueItems.name || "this location"}{" "}
-              has good accessibility for users with mobility issues.
-            </p>
-            <p>OSM description: {venueItems.wheelchairDesc}</p>
-          </>
-        );
-      case "Limited":
-        return (
-          <p>
-            OpenStreetMap data suggests {venueItems.name || "this location"} has
-            limited accessibility for users with mobility issues.
-          </p>
-        );
-      case "No":
-        return (
-          <p>
-            OpenStreetMap data suggests {venueItems.name || "this location"} has
-            no accessibility for users with mobility issues.
-          </p>
-        );
-      default:
-        return (
-          <p>
-            OpenStreetMap data suggests {venueItems.name || "this location"} has
-            no accessibility for users with mobility issues.
-          </p>
-        );
-    }
-  }
-
   return isLoading ? (
     <LoadingSpin />
   ) : (
@@ -155,32 +140,32 @@ const CustomModal = ({ show, handleClose, id }) => {
         handleClose();
       }}
       centered
-      size="lg"
+      size='lg'
     >
-      <ModalHeader className="modalHeader" closeButton>
+      <ModalHeader className='modalHeader' closeButton>
         <ModalTitle>
           <h2>{venueItems.name}</h2>
         </ModalTitle>{" "}
         <br />
       </ModalHeader>
-      <ModalBody className="modalBody">
+      <ModalBody className='modalBody'>
         <h4>At a glance:</h4>
         <center>
           {venueItems.accessibility_ratings.length > 0 ? (
             <ListGroup>
-              <ListGroup.Item variant="dark">
+              <ListGroup.Item variant='dark'>
                 <strong>Average General Accessibility rating: </strong>
                 <br></br>
                 {average(venueItems.accessibility_ratings)}
               </ListGroup.Item>
               <br></br>
-              <ListGroup.Item variant="dark">
+              <ListGroup.Item variant='dark'>
                 <strong>Average Equality rating: </strong>
                 <br></br>
                 {average(venueItems.equality_ratings)}
               </ListGroup.Item>
               <br></br>
-              <ListGroup.Item variant="dark">
+              <ListGroup.Item variant='dark'>
                 <strong>Average Attitude rating: </strong>
                 <br></br>
                 {average(venueItems.attitude_ratings)}
@@ -203,7 +188,7 @@ const CustomModal = ({ show, handleClose, id }) => {
               return (
                 <>
                   <ListGroup>
-                    <ListGroup.Item variant="dark" key={comments._id}>
+                    <ListGroup.Item variant='dark' key={comments._id}>
                       <strong>Author: </strong>
                       {comments.author}
                       <br></br>
@@ -211,14 +196,19 @@ const CustomModal = ({ show, handleClose, id }) => {
                       {moment(comments.commentDate).format("MMM Do YYYY")}
                       <br></br>
                       <strong>Comment confirmed: </strong>
-                      {comments.total_confirmed_votes} times
+                      {comments.total_confirmed_votes +
+                        (confirmCount[comments._id]
+                          ? confirmCount[comments._id]
+                          : 0)}{" "}
+                      times
                       <hr />
                       {comments.body}
                       <br></br>
                       <br></br>
                       <ConfirmButton
+                        setConfirmCount={setConfirmCount}
                         total_confirmed_votes={comments.total_confirmed_votes}
-                        id={venueItems._Id}
+                        id={comments._id}
                       />
                     </ListGroup.Item>
                   </ListGroup>
@@ -228,12 +218,14 @@ const CustomModal = ({ show, handleClose, id }) => {
             })}
           </ul>
         ) : (
-          <p>
-            <strong>
-              There are no comments here yet, be the first by adding your
-              comments below.
-            </strong>
-          </p>
+          <center>
+            <p>
+              <strong>
+                There are no comments here yet, be the first by adding your
+                comments below.
+              </strong>
+            </p>
+          </center>
         )}
         <hr></hr>
         <p>
@@ -242,12 +234,12 @@ const CustomModal = ({ show, handleClose, id }) => {
             {venueItems.name || "this location"}:{" "}
           </b>
         </p>
-        <ExpandableButton>
+        <ExpandableButton isOpen={isOpen} setIsOpen={setIsOpen}>
           <div onSubmit={handleSubmit}>
             <Form>
               <br />
               <ListGroup>
-                <ListGroup.Item variant="dark">
+                <ListGroup.Item variant='dark'>
                   <p>
                     <strong>How accessible is this location?</strong>
                     <br />
@@ -260,55 +252,55 @@ const CustomModal = ({ show, handleClose, id }) => {
                     suitable turning circles?
                   </p>
                   <p>Please give a rating for general accessibility</p>
-                  <label htmlFor="accessRadioButton1">
+                  <label htmlFor='accessRadioButton1'>
                     <Form.Check
-                      type="radio"
-                      id="accessRadioButton1"
-                      name="accessRating"
+                      type='radio'
+                      id='accessRadioButton1'
+                      name='accessRating'
                       value={1}
                       onChange={handleAccessRadioSelect}
                       label={`Very Poor`}
                     />
                   </label>
                   <br />
-                  <label htmlFor="accessRadioButton2">
+                  <label htmlFor='accessRadioButton2'>
                     <Form.Check
-                      type="radio"
-                      id="accessRadioButton2"
-                      name="accessRating"
+                      type='radio'
+                      id='accessRadioButton2'
+                      name='accessRating'
                       value={2}
                       onChange={handleAccessRadioSelect}
                       label={`Poor`}
                     />
                   </label>
                   <br />
-                  <label htmlFor="accessRadioButton3">
+                  <label htmlFor='accessRadioButton3'>
                     <Form.Check
-                      type="radio"
-                      id="accessRadioButton3"
-                      name="accessRating"
+                      type='radio'
+                      id='accessRadioButton3'
+                      name='accessRating'
                       value={3}
                       onChange={handleAccessRadioSelect}
                       label={`Average`}
                     />
                   </label>
                   <br />
-                  <label htmlFor="accessRadioButton4">
+                  <label htmlFor='accessRadioButton4'>
                     <Form.Check
-                      type="radio"
-                      id="accessRadioButton4"
-                      name="accessRating"
+                      type='radio'
+                      id='accessRadioButton4'
+                      name='accessRating'
                       value={4}
                       onChange={handleAccessRadioSelect}
                       label={`Good`}
                     />
                   </label>
                   <br />
-                  <label htmlFor="accessRadioButton5">
+                  <label htmlFor='accessRadioButton5'>
                     <Form.Check
-                      type="radio"
-                      id="accessRadioButton5"
-                      name="accessRating"
+                      type='radio'
+                      id='accessRadioButton5'
+                      name='accessRating'
                       value={5}
                       onChange={handleAccessRadioSelect}
                       label={`Very Good`}
@@ -319,7 +311,7 @@ const CustomModal = ({ show, handleClose, id }) => {
               </ListGroup>
               <hr />
               <ListGroup>
-                <ListGroup.Item variant="dark">
+                <ListGroup.Item variant='dark'>
                   <p>
                     <strong>
                       How equal were you made to feel at this location?
@@ -336,55 +328,55 @@ const CustomModal = ({ show, handleClose, id }) => {
                   </p>
                   <div>
                     <p>Please give a rating for equality:</p>
-                    <label htmlFor="equalityRadioButton1">
+                    <label htmlFor='equalityRadioButton1'>
                       <Form.Check
-                        type="radio"
-                        id="equalityRadioButton1"
-                        name="equalityRating"
+                        type='radio'
+                        id='equalityRadioButton1'
+                        name='equalityRating'
                         value={1}
                         onChange={handleEqualityRadioSelect}
                         label={`Very Poor`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="equalityRadioButton2">
+                    <label htmlFor='equalityRadioButton2'>
                       <Form.Check
-                        type="radio"
-                        id="equalityRadioButton2"
-                        name="equalityRating"
+                        type='radio'
+                        id='equalityRadioButton2'
+                        name='equalityRating'
                         value={2}
                         onChange={handleEqualityRadioSelect}
                         label={`Poor`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="equalityRadioButton3">
+                    <label htmlFor='equalityRadioButton3'>
                       <Form.Check
-                        type="radio"
-                        id="equalityRadioButton3"
-                        name="equalityRating"
+                        type='radio'
+                        id='equalityRadioButton3'
+                        name='equalityRating'
                         value={3}
                         onChange={handleEqualityRadioSelect}
                         label={`Average`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="equalityRadioButton4">
+                    <label htmlFor='equalityRadioButton4'>
                       <Form.Check
-                        type="radio"
-                        id="equalityRadioButton4"
-                        name="equalityRating"
+                        type='radio'
+                        id='equalityRadioButton4'
+                        name='equalityRating'
                         value={4}
                         onChange={handleEqualityRadioSelect}
                         label={`Good`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="equalityRadioButton5">
+                    <label htmlFor='equalityRadioButton5'>
                       <Form.Check
-                        type="radio"
-                        id="equalityRadioButton5"
-                        name="equalityRating"
+                        type='radio'
+                        id='equalityRadioButton5'
+                        name='equalityRating'
                         value={5}
                         onChange={handleEqualityRadioSelect}
                         label={`Very Good`}
@@ -396,7 +388,7 @@ const CustomModal = ({ show, handleClose, id }) => {
 
               <hr />
               <ListGroup>
-                <ListGroup.Item variant="dark">
+                <ListGroup.Item variant='dark'>
                   <p>
                     <strong>
                       What was the attitude of the staff/clientele at this
@@ -414,55 +406,55 @@ const CustomModal = ({ show, handleClose, id }) => {
                   </p>
                   <div>
                     <p>Please give a rating for attitudes:</p>
-                    <label htmlFor="attitudeRadioButton1">
+                    <label htmlFor='attitudeRadioButton1'>
                       <Form.Check
-                        type="radio"
-                        id="attitudeRadioButton1"
-                        name="attitudeRating"
+                        type='radio'
+                        id='attitudeRadioButton1'
+                        name='attitudeRating'
                         value={1}
                         onChange={handleAttitudeRadioSelect}
                         label={`Very Poor`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="attitudeRadioButton2">
+                    <label htmlFor='attitudeRadioButton2'>
                       <Form.Check
-                        type="radio"
-                        id="attitudeRadioButton2"
-                        name="attitudeRating"
+                        type='radio'
+                        id='attitudeRadioButton2'
+                        name='attitudeRating'
                         value={2}
                         onChange={handleAttitudeRadioSelect}
                         label={`Poor`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="attitudeRadioButton3">
+                    <label htmlFor='attitudeRadioButton3'>
                       <Form.Check
-                        type="radio"
-                        id="attitudeRadioButton3"
-                        name="attitudeRating"
+                        type='radio'
+                        id='attitudeRadioButton3'
+                        name='attitudeRating'
                         value={3}
                         onChange={handleAttitudeRadioSelect}
                         label={`Average`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="attitudeRadioButton4">
+                    <label htmlFor='attitudeRadioButton4'>
                       <Form.Check
-                        type="radio"
-                        id="attitudeRadioButton4"
-                        name="attitudeRating"
+                        type='radio'
+                        id='attitudeRadioButton4'
+                        name='attitudeRating'
                         value={4}
                         onChange={handleAttitudeRadioSelect}
                         label={`Good`}
                       />
                     </label>
                     <br />
-                    <label htmlFor="attitudeRadioButton5">
+                    <label htmlFor='attitudeRadioButton5'>
                       <Form.Check
-                        type="radio"
-                        id="attitudeRadioButton5"
-                        name="attitudeRating"
+                        type='radio'
+                        id='attitudeRadioButton5'
+                        name='attitudeRating'
                         value={5}
                         onChange={handleAttitudeRadioSelect}
                         label={`Very Good`}
@@ -475,28 +467,28 @@ const CustomModal = ({ show, handleClose, id }) => {
               <br />
               <strong>Add your comments</strong>
               <p>Please expand on your experiences here:</p>
-              <label htmlFor="commentBox"></label>
+              <label htmlFor='commentBox'></label>
               <Form.Control
-                size="lg"
-                type="text"
-                id="commentBox"
-                name="commentBox"
+                size='lg'
+                type='text'
+                id='commentBox'
+                name='commentBox'
                 value={newComment}
                 onChange={handleCommentChange}
-                placeholder="Type your comment here..."
+                placeholder='Type your comment here...'
                 required
               />
               <br />
-              <Button variant="secondary" type="submit">
+              <Button variant='secondary' type='submit'>
                 Submit Comment
               </Button>
             </Form>
           </div>
         </ExpandableButton>
       </ModalBody>
-      <ModalFooter className="modalFooter">
+      <ModalFooter className='modalFooter'>
         <Button
-          variant="secondary"
+          variant='secondary'
           onClick={() => {
             setIsLoading(true);
             handleClose();
