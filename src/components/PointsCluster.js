@@ -9,6 +9,8 @@ const PointsCluster = ({ points, searchResult }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  let searchTest = new RegExp(`^(${searchResult})`, "i");
+
   const clusterIcon = (cluster) => {
     let markers = cluster.getChildCount();
     return new L.DivIcon({
@@ -29,7 +31,7 @@ const PointsCluster = ({ points, searchResult }) => {
       <div>
         {points.map((point) => {
           return searchResult ? (
-            point.properties.placeName === searchResult ? (
+            searchTest.test(point.properties.placeName) ? (
               <div key={point.properties.placeId}>
                 <Marker
                   className='marker'
