@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 
 const NotLoggedInError = () => {
   return (
     <>
-      <p>You are not logged in</p>
       <br></br>
-      <Link to="/">Click here to go back to the Login page</Link>
+      <Alert variant="danger">
+        <center>
+          <br></br>
+          Error - You need to be logged in to access this page!
+          <br></br>
+          <br></br>
+          <Alert.Link href="/">Click here to go to the Login screen</Alert.Link>
+        </center>
+      </Alert>
     </>
   );
 };

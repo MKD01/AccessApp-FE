@@ -33,18 +33,13 @@ const CustomModal = ({ show, handleClose, id }) => {
   const [equalityState, setEqualityState] = useState(null);
   const [attitudeState, setAttitudeState] = useState(null);
 
-  console.log(id, "incoming ID");
-
   const setId = (id) => {
     const splitId = id.split("/");
     return splitId[1];
   };
 
-  console.log(setId(id), "id");
-
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
-    console.log(event.target.value);
   };
 
   const handleAccessRadioSelect = (event) => {
@@ -171,59 +166,75 @@ const CustomModal = ({ show, handleClose, id }) => {
       <ModalBody className="modalBody">
         <h4>At a glance:</h4>
         <center>
-          <ListGroup>
-            <ListGroup.Item variant="dark">
-              <strong>Average General Accessibility rating: </strong>
+          {venueItems.accessibility_ratings.length > 0 ? (
+            <ListGroup>
+              <ListGroup.Item variant="dark">
+                <strong>Average General Accessibility rating: </strong>
+                <br></br>
+                {average(venueItems.accessibility_ratings)}
+              </ListGroup.Item>
               <br></br>
-              {average(venueItems.accessibility_ratings)}
-            </ListGroup.Item>
-            <br></br>
-            <ListGroup.Item variant="dark">
-              <strong>Average Equality rating: </strong>
+              <ListGroup.Item variant="dark">
+                <strong>Average Equality rating: </strong>
+                <br></br>
+                {average(venueItems.equality_ratings)}
+              </ListGroup.Item>
               <br></br>
-              {average(venueItems.equality_ratings)}
-            </ListGroup.Item>
-            <br></br>
-            <ListGroup.Item variant="dark">
-              <strong>Average Attitude rating: </strong>
-              <br></br>
-              {average(venueItems.attitude_ratings)}
-            </ListGroup.Item>
-          </ListGroup>
+              <ListGroup.Item variant="dark">
+                <strong>Average Attitude rating: </strong>
+                <br></br>
+                {average(venueItems.attitude_ratings)}
+              </ListGroup.Item>
+            </ListGroup>
+          ) : (
+            <p>
+              <strong>
+                There are no ratings to show you yet, be the first by reviewing
+                this venue below.
+              </strong>
+            </p>
+          )}
         </center>
         <hr></hr>
-        <p>
-          <strong>Comments about {venueItems.name || "this location"}:</strong>
-        </p>
-        <ul>
-          {venueItems.comments.map((comments) => {
-            return (
-              <>
-                <ListGroup>
-                  <ListGroup.Item variant="dark" key={comments._id}>
-                    <strong>Author: </strong>
-                    {comments.author}
-                    <br></br>
-                    <strong>Posted: </strong>
-                    {moment(comments.commentDate).format("MMM Do YYYY")}
-                    <br></br>
-                    <strong>Comment confirmed: </strong>
-                    {comments.total_confirmed_votes} times
-                    <hr />
-                    {comments.body}
-                    <br></br>
-                    <br></br>
-                    <ConfirmButton
-                      total_confirmed_votes={comments.total_confirmed_votes}
-                      id={venueItems._Id}
-                    />
-                  </ListGroup.Item>
-                </ListGroup>
-                <br />
-              </>
-            );
-          })}
-        </ul>
+        <h4>Comments about {venueItems.name || "this location"}:</h4>
+        {venueItems.comments.length > 0 ? (
+          <ul>
+            {venueItems.comments.map((comments) => {
+              return (
+                <>
+                  <ListGroup>
+                    <ListGroup.Item variant="dark" key={comments._id}>
+                      <strong>Author: </strong>
+                      {comments.author}
+                      <br></br>
+                      <strong>Posted: </strong>
+                      {moment(comments.commentDate).format("MMM Do YYYY")}
+                      <br></br>
+                      <strong>Comment confirmed: </strong>
+                      {comments.total_confirmed_votes} times
+                      <hr />
+                      {comments.body}
+                      <br></br>
+                      <br></br>
+                      <ConfirmButton
+                        total_confirmed_votes={comments.total_confirmed_votes}
+                        id={venueItems._Id}
+                      />
+                    </ListGroup.Item>
+                  </ListGroup>
+                  <br />
+                </>
+              );
+            })}
+          </ul>
+        ) : (
+          <p>
+            <strong>
+              There are no comments here yet, be the first by adding your
+              comments below.
+            </strong>
+          </p>
+        )}
         <hr></hr>
         <p>
           <b>
