@@ -41,7 +41,7 @@ const PointsCluster = ({ points, searchResult }) => {
                       ? point.properties.placeName
                       : "No Name Found"}
                     <button
-                      className='popup-button'
+                      className="popup-button"
                       onClick={() => setShow(true)}
                     >
                       More Info
@@ -73,7 +73,7 @@ const PointsCluster = ({ points, searchResult }) => {
                   </h4>
                   <br></br>
                   <button
-                    className='popup-button'
+                    className="popup-button"
                     onClick={() => setShow(true)}
                   >
                     Click for more info
