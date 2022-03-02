@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import CustomModal from "./CustomModal";
 import Button from "react-bootstrap/Button";
@@ -17,7 +17,7 @@ const PointsCluster = ({ points, searchResult }) => {
       iconSize: new L.Point(40, 40),
     });
   };
-
+  const map = useMap();
   return (
     <MarkerClusterGroup
       showCoverageOnHover={true}
@@ -32,6 +32,15 @@ const PointsCluster = ({ points, searchResult }) => {
             point.properties.placeName === searchResult ? (
               <div key={point.properties.placeId}>
                 <Marker
+                  eventHandlers={{
+                    click: () => {
+                      console.log("here");
+                      map.flyTo([
+                        point.geometry.coordinates[1],
+                        point.geometry.coordinates[0],
+                      ]);
+                    },
+                  }}
                   position={[
                     point.geometry.coordinates[1],
                     point.geometry.coordinates[0],
@@ -43,7 +52,7 @@ const PointsCluster = ({ points, searchResult }) => {
                         ? point.properties.placeName
                         : "No Name Found"}
                     </h4>
-                    <Button variant="secondary" onClick={() => setShow(true)}>
+                    <Button variant='secondary' onClick={() => setShow(true)}>
                       Click for more info
                     </Button>
                     <CustomModal
@@ -60,6 +69,15 @@ const PointsCluster = ({ points, searchResult }) => {
           ) : (
             <div key={point.properties.placeId}>
               <Marker
+                eventHandlers={{
+                  click: () => {
+                    console.log("here");
+                    map.flyTo([
+                      point.geometry.coordinates[1],
+                      point.geometry.coordinates[0],
+                    ]);
+                  },
+                }}
                 position={[
                   point.geometry.coordinates[1],
                   point.geometry.coordinates[0],
@@ -72,7 +90,7 @@ const PointsCluster = ({ points, searchResult }) => {
                       : "No Name Found"}
                   </h4>
                   <br></br>
-                  <Button variant="secondary" onClick={() => setShow(true)}>
+                  <Button variant='secondary' onClick={() => setShow(true)}>
                     Click for more info
                   </Button>
                   <CustomModal
