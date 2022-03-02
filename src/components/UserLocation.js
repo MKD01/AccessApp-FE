@@ -32,7 +32,7 @@ const UserLocation = ({ pos }) => {
       icon={userLocationIcon}
       position={pos}
     >
-      <Popup>You Location</Popup>
+      <Popup>Your Location</Popup>
     </Marker>
   ) : (
     <></>

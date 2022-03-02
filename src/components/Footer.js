@@ -1,7 +1,13 @@
+import { Card, ListGroup } from "react-bootstrap";
+
 const Footer = () => {
   return (
     <>
-      <h4>© 2022 The Reactors</h4>
+      <Card id='footer' style={{ width: "9.5rem" }}>
+        <ListGroup variant='flush'>
+          <ListGroup.Item>© 2022 The Reactors</ListGroup.Item>
+        </ListGroup>
+      </Card>
     </>
   );
 };

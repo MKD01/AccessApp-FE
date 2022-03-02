@@ -7,16 +7,38 @@ body {
   background-color: #d2c8db;
 }
 
+.show-hide-location {
+  font-size: 14px;
+  width: 2.2rem;
+  border: 1px gray solid;
+}
+
+.search-form {
+  position: absolute;
+  margin-top: 0.5rem;
+  margin-left: 13%;
+  z-index: 1002;
+}
+
+#footer {
+  margin-top: 87vh;
+  margin-left: 0.4rem;
+  position: absolute;
+  z-index: 1002;
+}
+
 .user-location-buttons {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   z-index: 1001;
-  top: 5rem;
+  right: 0.3rem;
+  top: 0.6rem;
 }
 
 .leaflet-container {
-  width: 90vw;
-  height: 90vh;
-  margin: auto auto;
+  width: 100vw;
+  height: 92vh;
 }
 
 .leaflet-div-icon {

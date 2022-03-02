@@ -6,18 +6,16 @@ import MainMap from "./components/Map";
 import ErrorPage from "./components/ErrorPage";
 import Login from "./components/Login";
 import Nav from "./components/Nav";
-import Footer from "./components/Footer";
 
 function App() {
   return (
     <BrowserRouter>
       <Nav />
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/map" element={<MainMap />}></Route>
-        <Route path="*" element={<ErrorPage />} />
+        <Route path='/' element={<Login />}></Route>
+        <Route path='/map' element={<MainMap />}></Route>
+        <Route path='*' element={<ErrorPage />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
