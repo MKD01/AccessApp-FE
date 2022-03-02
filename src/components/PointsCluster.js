@@ -32,6 +32,7 @@ const PointsCluster = ({ points, searchResult }) => {
             point.properties.placeName === searchResult ? (
               <div key={point.properties.placeId}>
                 <Marker
+                  className='marker'
                   eventHandlers={{
                     click: () => {
                       console.log("here");

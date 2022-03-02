@@ -57,9 +57,6 @@ const Login = () => {
   return (
     <div className='loginPage'>
       <main>
-        <p>
-          For Demo purposes - Please log in as: <strong>joe</strong>
-        </p>
         <Card className='login-card'>
           <ModalHeader className='login-header'>
             <ModalTitle>
@@ -71,6 +68,7 @@ const Login = () => {
             <Form.Group className='mb-3' id='login-form'>
               <InputGroup className='mb-3'>
                 <Form.Label htmlFor='Login__textbox'>
+                  Username:
                   <FormControl
                     type='text'
                     aria-describedby='basic-addon2'
@@ -78,16 +76,17 @@ const Login = () => {
                     id='Login__textbox'
                     value={newUsername}
                     onChange={handleUsernameChange}
-                    placeholder='Enter your username'
+                    placeholder='Enter Username'
                     required
                   />
                 </Form.Label>
-                <Form.Label htmlFor='Login__textbox'>
+                <Form.Label className='password-box' htmlFor='Login__textbox'>
+                  Password:
                   <FormControl
                     type='password'
                     aria-describedby='basic-addon2'
                     name='Login__textbox'
-                    placeholder='Password'
+                    placeholder='Enter Password'
                     required
                   />
                 </Form.Label>
