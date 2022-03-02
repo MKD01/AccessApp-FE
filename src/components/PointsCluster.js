@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import CustomModal from "./CustomModal";
+import Button from "react-bootstrap/Button";
 import L from "leaflet";
 
 const PointsCluster = ({ points, searchResult }) => {
@@ -37,15 +38,14 @@ const PointsCluster = ({ points, searchResult }) => {
                   ]}
                 >
                   <Popup>
-                    {point.properties.placeName
-                      ? point.properties.placeName
-                      : "No Name Found"}
-                    <button
-                      className="popup-button"
-                      onClick={() => setShow(true)}
-                    >
-                      More Info
-                    </button>
+                    <h4>
+                      {point.properties.placeName
+                        ? point.properties.placeName
+                        : "No Name Found"}
+                    </h4>
+                    <Button variant="secondary" onClick={() => setShow(true)}>
+                      Click for more info
+                    </Button>
                     <CustomModal
                       show={show}
                       handleClose={handleClose}
@@ -72,12 +72,9 @@ const PointsCluster = ({ points, searchResult }) => {
                       : "No Name Found"}
                   </h4>
                   <br></br>
-                  <button
-                    className="popup-button"
-                    onClick={() => setShow(true)}
-                  >
+                  <Button variant="secondary" onClick={() => setShow(true)}>
                     Click for more info
-                  </button>
+                  </Button>
                   <CustomModal
                     show={show}
                     handleClose={handleClose}
