@@ -17,8 +17,6 @@ function MainMap() {
 
   const userPos = [53.4833, -2.24478];
 
-  console.log(searchResult);
-
   const { isLoggedIn } = useContext(UserContext);
   const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
 
@@ -41,7 +39,7 @@ function MainMap() {
     return (
       <>
         <MapContainer
-          className='leaflet-container'
+          className="leaflet-container"
           center={[53.483959, -2.244644]}
           zoom={19}
           maxZoom={20}
@@ -50,9 +48,9 @@ function MainMap() {
             maxNativeZoom={19}
             maxZoom={20}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Search className='searchbar' setSearchResult={setSearchResult} />
+          <Search className="searchbar" setSearchResult={setSearchResult} />
           <UserLocationButtons
             pos={userPos}
             setUserLocationVisibility={setUserLocationVisibility}

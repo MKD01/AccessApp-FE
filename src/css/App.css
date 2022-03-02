@@ -9,7 +9,6 @@
 }
 
 body {
-  /* background-color: #d2c8db; */
   background-color: rgb(210, 202, 212);
 }
 
@@ -113,8 +112,6 @@ body {
 }
 
 .marker-cluster {
-  /* width: 32px;
-  height: 32px; */
   line-height: 2.5rem;
   border-radius: 100%;
   background: linear-gradient(rgb(0, 162, 255), rgb(0, 255, 221));

@@ -55,44 +55,52 @@ const Login = () => {
   };
 
   return (
-    <div className='loginPage'>
+    <div className="loginPage">
       <main>
-        <Card className='login-card'>
-          <ModalHeader className='login-header'>
+        <center>
+          <img
+            src={mainLogo}
+            alt="Inclusive Manchester"
+            width="300"
+            height="300"
+          ></img>
+        </center>
+        <Card className="login-card">
+          <ModalHeader className="login-header">
             <ModalTitle>
               <h2>LOGIN</h2>
             </ModalTitle>
             <br />
           </ModalHeader>
-          <Form className='Login__form' onSubmit={handleSubmit}>
-            <Form.Group className='mb-3' id='login-form'>
-              <InputGroup className='mb-3'>
-                <Form.Label htmlFor='Login__textbox'>
+          <Form className="Login__form" onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" id="login-form">
+              <InputGroup className="mb-3">
+                <Form.Label htmlFor="Login__textbox">
                   Username:
                   <FormControl
-                    type='text'
-                    aria-describedby='basic-addon2'
-                    name='Login__textbox'
-                    id='Login__textbox'
+                    type="text"
+                    aria-describedby="basic-addon2"
+                    name="Login__textbox"
+                    id="Login__textbox"
                     value={newUsername}
                     onChange={handleUsernameChange}
-                    placeholder='Enter Username'
+                    placeholder="Enter Username"
                     required
                   />
                 </Form.Label>
-                <Form.Label className='password-box' htmlFor='Login__textbox'>
+                <Form.Label className="password-box" htmlFor="Login__textbox">
                   Password:
                   <FormControl
-                    type='password'
-                    aria-describedby='basic-addon2'
-                    name='Login__textbox'
-                    placeholder='Enter Password'
+                    type="password"
+                    aria-describedby="basic-addon2"
+                    name="Login__textbox"
+                    placeholder="Enter Password"
                     required
                   />
                 </Form.Label>
                 <br></br>
               </InputGroup>
-              <Button variant='secondary' type='submit'>
+              <Button variant="secondary" type="submit">
                 Log in
               </Button>
             </Form.Group>

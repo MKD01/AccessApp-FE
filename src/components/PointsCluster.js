@@ -34,10 +34,10 @@ const PointsCluster = ({ points, searchResult }) => {
             searchTest.test(point.properties.placeName) ? (
               <div key={point.properties.placeId}>
                 <Marker
-                  className='marker'
+                  key={point.properties.placeId}
+                  className="marker"
                   eventHandlers={{
                     click: () => {
-                      console.log("here");
                       map.flyTo([
                         point.geometry.coordinates[1],
                         point.geometry.coordinates[0],
@@ -55,7 +55,7 @@ const PointsCluster = ({ points, searchResult }) => {
                         ? point.properties.placeName
                         : "No Name Found"}
                     </h4>
-                    <Button variant='secondary' onClick={() => setShow(true)}>
+                    <Button variant="secondary" onClick={() => setShow(true)}>
                       Click for more info
                     </Button>
                     <CustomModal
@@ -74,7 +74,6 @@ const PointsCluster = ({ points, searchResult }) => {
               <Marker
                 eventHandlers={{
                   click: () => {
-                    console.log("here");
                     map.flyTo([
                       point.geometry.coordinates[1],
                       point.geometry.coordinates[0],
@@ -93,7 +92,7 @@ const PointsCluster = ({ points, searchResult }) => {
                       : "No Name Found"}
                   </h4>
                   <br></br>
-                  <Button variant='secondary' onClick={() => setShow(true)}>
+                  <Button variant="secondary" onClick={() => setShow(true)}>
                     Click for more info
                   </Button>
                   <CustomModal
