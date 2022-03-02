@@ -5,6 +5,9 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+import Form from "react-bootstrap/Form";
+import "../css/CustomModal.css";
 import moment from "moment";
 import {
   getVenueInfoById,
@@ -159,25 +162,35 @@ const CustomModal = ({ show, handleClose, id }) => {
       centered
       size="lg"
     >
-      <ModalHeader closeButton>
+      <ModalHeader className="modalHeader" closeButton>
         <ModalTitle>
           <h2>{venueItems.name}</h2>
         </ModalTitle>{" "}
         <br />
       </ModalHeader>
-      <ModalBody>
-        {console.log(venueItems, "venue items")}
-
+      <ModalBody className="modalBody">
         <h4>At a glance:</h4>
-        {accessSwitch(venueItems.wheelchair)}
-        <p>
-          Average General Accessibility rating:{" "}
-          {average(venueItems.accessibility_ratings)}
-          <br />
-          Average Equality rating: {average(venueItems.equality_ratings)}
-          <br />
-          Average Attitude rating: {average(venueItems.attitude_ratings)}
-        </p>
+        <center>
+          <ListGroup>
+            <ListGroup.Item variant="dark">
+              <strong>Average General Accessibility rating: </strong>
+              <br></br>
+              {average(venueItems.accessibility_ratings)}
+            </ListGroup.Item>
+            <br></br>
+            <ListGroup.Item variant="dark">
+              <strong>Average Equality rating: </strong>
+              <br></br>
+              {average(venueItems.equality_ratings)}
+            </ListGroup.Item>
+            <br></br>
+            <ListGroup.Item variant="dark">
+              <strong>Average Attitude rating: </strong>
+              <br></br>
+              {average(venueItems.attitude_ratings)}
+            </ListGroup.Item>
+          </ListGroup>
+        </center>
         <hr></hr>
         <p>
           <strong>Comments about {venueItems.name || "this location"}:</strong>
@@ -186,18 +199,27 @@ const CustomModal = ({ show, handleClose, id }) => {
           {venueItems.comments.map((comments) => {
             return (
               <>
-                <li key={comments._id}>
-                  {comments.body}
-                  <br></br>
-                  Author: {comments.author} | Posted:{" "}
-                  {moment(comments.commentDate).format("MMM Do YYYY")}
-                  <br></br>
-                  <ConfirmButton
-                    total_confirmed_votes={comments.total_confirmed_votes}
-                    id={venueItems._Id}
-                  />
-                </li>
-                <br></br>
+                <ListGroup>
+                  <ListGroup.Item variant="dark" key={comments._id}>
+                    <strong>Author: </strong>
+                    {comments.author}
+                    <br></br>
+                    <strong>Posted: </strong>
+                    {moment(comments.commentDate).format("MMM Do YYYY")}
+                    <br></br>
+                    <strong>Comment confirmed: </strong>
+                    {comments.total_confirmed_votes} times
+                    <hr />
+                    {comments.body}
+                    <br></br>
+                    <br></br>
+                    <ConfirmButton
+                      total_confirmed_votes={comments.total_confirmed_votes}
+                      id={venueItems._Id}
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                <br />
               </>
             );
           })}
@@ -211,243 +233,259 @@ const CustomModal = ({ show, handleClose, id }) => {
         </p>
         <ExpandableButton>
           <div onSubmit={handleSubmit}>
-            <form>
+            <Form>
               <br />
-              <p>
-                <strong>How accessible is this location?</strong>
-                <br />
-                Does this location have accessible facilites? e.g. flat
-                entrances and disabled bathrooms?
-                <br />
-                Is there furniture suitable to meet specific individual need?{" "}
-                <br />
-                Is there adequate space between furniture? I.e. are there
-                suitable turning circles?
-              </p>
-              <p>Please give a rating for general accessibility</p>
-              <label htmlFor="accessRadioButton1">
-                <input
-                  type="radio"
-                  id="accessRadioButton1"
-                  name="accessRating"
-                  value={1}
-                  onChange={handleAccessRadioSelect}
-                />{" "}
-                Very Poor
-              </label>
-              <br />
-              <label htmlFor="accessRadioButton2">
-                <input
-                  type="radio"
-                  id="accessRadioButton2"
-                  name="accessRating"
-                  value={2}
-                  onChange={handleAccessRadioSelect}
-                />{" "}
-                Poor
-              </label>
-              <br />
-              <label htmlFor="accessRadioButton3">
-                <input
-                  type="radio"
-                  id="accessRadioButton3"
-                  name="accessRating"
-                  value={3}
-                  onChange={handleAccessRadioSelect}
-                />{" "}
-                Average
-              </label>
-              <br />
-              <label htmlFor="accessRadioButton4">
-                <input
-                  type="radio"
-                  id="accessRadioButton4"
-                  name="accessRating"
-                  value={4}
-                  onChange={handleAccessRadioSelect}
-                />{" "}
-                Good
-              </label>
-              <br />
-              <label htmlFor="accessRadioButton5">
-                <input
-                  type="radio"
-                  id="accessRadioButton5"
-                  name="accessRating"
-                  value={5}
-                  onChange={handleAccessRadioSelect}
-                />{" "}
-                Very Good
-              </label>
-              <br />
-              <br />
-              <p>
-                <strong>
-                  How equal were you made to feel at this location?
-                </strong>
-                <br />
-                Are disabled facilities at this location utilised
-                inappropiately? I.e toilets/changing places being used as
-                storage.
-                <br />
-                Are reasonable adjustments made to individual need?
-                <br />
-                Are there alternative forms of communication available at this
-                location? E.g. BSL/ Braille/ hearing loops etc.
-              </p>
-              <div>
-                <p>Please give a rating for equality:</p>
-                <label htmlFor="equalityRadioButton1">
-                  <input
-                    type="radio"
-                    id="equalityRadioButton1"
-                    name="equalityRating"
-                    value={1}
-                    onChange={handleEqualityRadioSelect}
-                  />{" "}
-                  Very Poor
-                </label>
-                <br />
-                <label htmlFor="equalityRadioButton2">
-                  <input
-                    type="radio"
-                    id="equalityRadioButton2"
-                    name="equalityRating"
-                    value={2}
-                    onChange={handleEqualityRadioSelect}
-                  />{" "}
-                  Poor
-                </label>
-                <br />
-                <label htmlFor="equalityRadioButton3">
-                  <input
-                    type="radio"
-                    id="equalityRadioButton3"
-                    name="equalityRating"
-                    value={3}
-                    onChange={handleEqualityRadioSelect}
-                  />{" "}
-                  Average
-                </label>
-                <br />
-                <label htmlFor="equalityRadioButton4">
-                  <input
-                    type="radio"
-                    id="equalityRadioButton4"
-                    name="equalityRating"
-                    value={4}
-                    onChange={handleEqualityRadioSelect}
-                  />{" "}
-                  Good
-                </label>
-                <br />
-                <label htmlFor="equalityRadioButton5">
-                  <input
-                    type="radio"
-                    id="equalityRadioButton5"
-                    name="equalityRating"
-                    value={5}
-                    onChange={handleEqualityRadioSelect}
-                  />{" "}
-                  Very Good
-                </label>
-                <br />
-                <br />
-                <p>
-                  <strong>
-                    What was the attitude of the staff/clientele at this
-                    location?
-                  </strong>
-                  <br />
-                  Did this location provide an inclusive atmosphere? I.e. did
-                  staff and clientele make you feel welcome?
-                  <br />
-                  Did everbody at this location treat you respectfully? E.g.
-                  addressing you rather than your carer?
-                  <br />
-                  Did you feel that staff had appropriate Equality and Diversity
-                  traning?
-                </p>
-                <div>
-                  <p>Please give a rating for attitudes:</p>
-                  <label htmlFor="attitudeRadioButton1">
-                    <input
+              <ListGroup>
+                <ListGroup.Item variant="dark">
+                  <p>
+                    <strong>How accessible is this location?</strong>
+                    <br />
+                    Does this location have accessible facilites? e.g. flat
+                    entrances and disabled bathrooms?
+                    <br />
+                    Is there furniture suitable to meet specific individual
+                    need? <br />
+                    Is there adequate space between furniture? I.e. are there
+                    suitable turning circles?
+                  </p>
+                  <p>Please give a rating for general accessibility</p>
+                  <label htmlFor="accessRadioButton1">
+                    <Form.Check
                       type="radio"
-                      id="attitudeRadioButton1"
-                      name="attitudeRating"
+                      id="accessRadioButton1"
+                      name="accessRating"
                       value={1}
-                      onChange={handleAttitudeRadioSelect}
-                    />{" "}
-                    Very Poor
+                      onChange={handleAccessRadioSelect}
+                      label={`Very Poor`}
+                    />
                   </label>
                   <br />
-                  <label htmlFor="attitudeRadioButton2">
-                    <input
+                  <label htmlFor="accessRadioButton2">
+                    <Form.Check
                       type="radio"
-                      id="attitudeRadioButton2"
-                      name="attitudeRating"
+                      id="accessRadioButton2"
+                      name="accessRating"
                       value={2}
-                      onChange={handleAttitudeRadioSelect}
-                    />{" "}
-                    Poor
+                      onChange={handleAccessRadioSelect}
+                      label={`Poor`}
+                    />
                   </label>
                   <br />
-                  <label htmlFor="attitudeRadioButton3">
-                    <input
+                  <label htmlFor="accessRadioButton3">
+                    <Form.Check
                       type="radio"
-                      id="attitudeRadioButton3"
-                      name="attitudeRating"
+                      id="accessRadioButton3"
+                      name="accessRating"
                       value={3}
-                      onChange={handleAttitudeRadioSelect}
-                    />{" "}
-                    Average
+                      onChange={handleAccessRadioSelect}
+                      label={`Average`}
+                    />
                   </label>
                   <br />
-                  <label htmlFor="attitudeRadioButton4">
-                    <input
+                  <label htmlFor="accessRadioButton4">
+                    <Form.Check
                       type="radio"
-                      id="attitudeRadioButton4"
-                      name="attitudeRating"
+                      id="accessRadioButton4"
+                      name="accessRating"
                       value={4}
-                      onChange={handleAttitudeRadioSelect}
-                    />{" "}
-                    Good
+                      onChange={handleAccessRadioSelect}
+                      label={`Good`}
+                    />
                   </label>
                   <br />
-                  <label htmlFor="attitudeRadioButton5">
-                    <input
+                  <label htmlFor="accessRadioButton5">
+                    <Form.Check
                       type="radio"
-                      id="attitudeRadioButton5"
-                      name="attitudeRating"
+                      id="accessRadioButton5"
+                      name="accessRating"
                       value={5}
-                      onChange={handleAttitudeRadioSelect}
-                    />{" "}
-                    Very Good
+                      onChange={handleAccessRadioSelect}
+                      label={`Very Good`}
+                    />
                   </label>
-                </div>
-                <br />
-                <strong>Comments</strong>
-                <p>Please expand on your experiences here:</p>
+                  <br />
+                </ListGroup.Item>
+              </ListGroup>
+              <hr />
+              <ListGroup>
+                <ListGroup.Item variant="dark">
+                  <p>
+                    <strong>
+                      How equal were you made to feel at this location?
+                    </strong>
+                    <br />
+                    Are disabled facilities at this location utilised
+                    inappropiately? I.e toilets/changing places being used as
+                    storage.
+                    <br />
+                    Are reasonable adjustments made to individual need?
+                    <br />
+                    Are there alternative forms of communication available at
+                    this location? E.g. BSL/ Braille/ hearing loops etc.
+                  </p>
+                  <div>
+                    <p>Please give a rating for equality:</p>
+                    <label htmlFor="equalityRadioButton1">
+                      <Form.Check
+                        type="radio"
+                        id="equalityRadioButton1"
+                        name="equalityRating"
+                        value={1}
+                        onChange={handleEqualityRadioSelect}
+                        label={`Very Poor`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="equalityRadioButton2">
+                      <Form.Check
+                        type="radio"
+                        id="equalityRadioButton2"
+                        name="equalityRating"
+                        value={2}
+                        onChange={handleEqualityRadioSelect}
+                        label={`Poor`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="equalityRadioButton3">
+                      <Form.Check
+                        type="radio"
+                        id="equalityRadioButton3"
+                        name="equalityRating"
+                        value={3}
+                        onChange={handleEqualityRadioSelect}
+                        label={`Average`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="equalityRadioButton4">
+                      <Form.Check
+                        type="radio"
+                        id="equalityRadioButton4"
+                        name="equalityRating"
+                        value={4}
+                        onChange={handleEqualityRadioSelect}
+                        label={`Good`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="equalityRadioButton5">
+                      <Form.Check
+                        type="radio"
+                        id="equalityRadioButton5"
+                        name="equalityRating"
+                        value={5}
+                        onChange={handleEqualityRadioSelect}
+                        label={`Very Good`}
+                      />
+                    </label>
+                  </div>
+                </ListGroup.Item>
+              </ListGroup>
 
-                <label htmlFor="commentBox"></label>
-                <input
-                  type="text"
-                  id="commentBox"
-                  name="commentBox"
-                  placeholder="Type your comment here..."
-                  value={newComment}
-                  onChange={handleCommentChange}
-                  required
-                ></input>
-                <button type="submit">Submit Comment</button>
-              </div>
-            </form>
+              <hr />
+              <ListGroup>
+                <ListGroup.Item variant="dark">
+                  <p>
+                    <strong>
+                      What was the attitude of the staff/clientele at this
+                      location?
+                    </strong>
+                    <br />
+                    Did this location provide an inclusive atmosphere? I.e. did
+                    staff and clientele make you feel welcome?
+                    <br />
+                    Did everbody at this location treat you respectfully? E.g.
+                    addressing you rather than your carer?
+                    <br />
+                    Did you feel that staff had appropriate Equality and
+                    Diversity traning?
+                  </p>
+                  <div>
+                    <p>Please give a rating for attitudes:</p>
+                    <label htmlFor="attitudeRadioButton1">
+                      <Form.Check
+                        type="radio"
+                        id="attitudeRadioButton1"
+                        name="attitudeRating"
+                        value={1}
+                        onChange={handleAttitudeRadioSelect}
+                        label={`Very Poor`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="attitudeRadioButton2">
+                      <Form.Check
+                        type="radio"
+                        id="attitudeRadioButton2"
+                        name="attitudeRating"
+                        value={2}
+                        onChange={handleAttitudeRadioSelect}
+                        label={`Poor`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="attitudeRadioButton3">
+                      <Form.Check
+                        type="radio"
+                        id="attitudeRadioButton3"
+                        name="attitudeRating"
+                        value={3}
+                        onChange={handleAttitudeRadioSelect}
+                        label={`Average`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="attitudeRadioButton4">
+                      <Form.Check
+                        type="radio"
+                        id="attitudeRadioButton4"
+                        name="attitudeRating"
+                        value={4}
+                        onChange={handleAttitudeRadioSelect}
+                        label={`Good`}
+                      />
+                    </label>
+                    <br />
+                    <label htmlFor="attitudeRadioButton5">
+                      <Form.Check
+                        type="radio"
+                        id="attitudeRadioButton5"
+                        name="attitudeRating"
+                        value={5}
+                        onChange={handleAttitudeRadioSelect}
+                        label={`Very Good`}
+                      />
+                    </label>
+                  </div>
+                  <br />
+                </ListGroup.Item>
+              </ListGroup>
+              <br />
+              <strong>Add your comments</strong>
+              <p>Please expand on your experiences here:</p>
+              <label htmlFor="commentBox"></label>
+              <Form.Control
+                size="lg"
+                type="text"
+                id="commentBox"
+                name="commentBox"
+                value={newComment}
+                onChange={handleCommentChange}
+                placeholder="Type your comment here..."
+                required
+              />
+              <br />
+              <Button variant="secondary" type="submit">
+                Submit Comment
+              </Button>
+            </Form>
           </div>
         </ExpandableButton>
       </ModalBody>
-      <ModalFooter>
+      <ModalFooter className="modalFooter">
         <Button
-          variant="primary"
+          variant="secondary"
           onClick={() => {
             setIsLoading(true);
             handleClose();

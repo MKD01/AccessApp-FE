@@ -1,0 +1,19 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modalHeader {
+  background-color: #5b6066;
+  color: #ededed;
+}
+
+.modalBody {
+  background-color: #ededed;
+}
+
+.modalFooter {
+  background-color: #5b6066;
+  color: #ededed;
+}

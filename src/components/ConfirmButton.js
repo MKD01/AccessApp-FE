@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
 
 const ConfirmButton = ({ total_confirmed_votes }) => {
   const [disableButton, setDisableButton] = useState(false);
@@ -8,8 +9,9 @@ const ConfirmButton = ({ total_confirmed_votes }) => {
 
   return (
     <>
-      <button
+      <Button
         disabled={disableButton}
+        variant="outline-dark"
         onClick={() => {
           setDisabledButtonText(
             `Comment confirmed (${total_confirmed_votes + 1} votes)`
@@ -18,8 +20,7 @@ const ConfirmButton = ({ total_confirmed_votes }) => {
         }}
       >
         {disabledButtonText}
-      </button>
-      ;
+      </Button>
     </>
   );
 };

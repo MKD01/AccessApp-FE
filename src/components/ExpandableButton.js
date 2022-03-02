@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { Button } from "react-bootstrap";
 
 const ExpandableButton = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <button
+      <Button
+        variant="secondary"
         onClick={() => {
           setIsOpen((currentStatus) => {
             return !currentStatus;
@@ -13,7 +15,7 @@ const ExpandableButton = ({ children }) => {
         }}
       >
         {isOpen ? "Close" : "Open"}
-      </button>
+      </Button>
       {isOpen ? children : null}
     </>
   );
