@@ -7,6 +7,20 @@ body {
   background-color: #d2c8db;
 }
 
+.login-form {
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.login-card {
+  margin: 0.5rem;
+}
+
+.login-header {
+  background-color: #5b6066;
+  color: #ededed;
+}
+
 .show-hide-location {
   font-size: 14px;
   width: 2.2rem;

@@ -3,6 +3,15 @@ import { UserContext } from "../contexts/User.js";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../utils/be-api.js";
 import mainLogo from "../img/logo.png";
+import {
+  FormControl,
+  Button,
+  InputGroup,
+  Card,
+  Form,
+  ModalTitle,
+} from "react-bootstrap";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
 
 const Login = () => {
   const [newUsername, setNewUsername] = useState("");
@@ -51,21 +60,45 @@ const Login = () => {
         <p>
           For Demo purposes - Please log in as: <strong>joe</strong>
         </p>
-        <form className='Login__form' onSubmit={handleSubmit}>
-          <label htmlFor='Login__textbox'>
-            <input
-              type='text'
-              name='Login__textbox'
-              id='Login__textbox'
-              value={newUsername}
-              onChange={handleUsernameChange}
-              placeholder='Enter your username'
-              required
-            />
-          </label>
-          <br></br>
-          <button type='submit'>Log in</button>
-        </form>
+        <Card className='login-card'>
+          <ModalHeader className='login-header'>
+            <ModalTitle>
+              <h2>LOGIN</h2>
+            </ModalTitle>
+            <br />
+          </ModalHeader>
+          <Form className='Login__form' onSubmit={handleSubmit}>
+            <Form.Group className='mb-3' id='login-form'>
+              <InputGroup className='mb-3'>
+                <Form.Label htmlFor='Login__textbox'>
+                  <FormControl
+                    type='text'
+                    aria-describedby='basic-addon2'
+                    name='Login__textbox'
+                    id='Login__textbox'
+                    value={newUsername}
+                    onChange={handleUsernameChange}
+                    placeholder='Enter your username'
+                    required
+                  />
+                </Form.Label>
+                <Form.Label htmlFor='Login__textbox'>
+                  <FormControl
+                    type='password'
+                    aria-describedby='basic-addon2'
+                    name='Login__textbox'
+                    placeholder='Password'
+                    required
+                  />
+                </Form.Label>
+                <br></br>
+              </InputGroup>
+              <Button variant='secondary' type='submit'>
+                Log in
+              </Button>
+            </Form.Group>
+          </Form>
+        </Card>
       </main>
     </div>
   );
