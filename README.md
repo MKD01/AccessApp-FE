@@ -58,3 +58,7 @@ $ npm install
 ```
 $ npm start
 ```
+
+## Logging in:
+
+- For the purposes of demo, to use the app login in with the username `joe` and input any password (this is not checked or verified as part of the demo).
