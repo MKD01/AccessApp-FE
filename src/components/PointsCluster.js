@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import { Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import CustomModal from "./CustomModal";
+import L from "leaflet";
 
 const PointsCluster = ({ points, searchResult }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
+  const clusterIcon = (cluster) => {
+    let markers = cluster.getChildCount();
+    return new L.DivIcon({
+      html: "<div><span>" + markers.length + "</span></div>",
+      className: "marker-cluster",
+      iconSize: new L.Point(40, 40),
+    });
+  };
 
   return (
     <MarkerClusterGroup
@@ -13,6 +23,7 @@ const PointsCluster = ({ points, searchResult }) => {
       disableClusteringAtZoom={18}
       spiderfyOnMaxZoom={false}
       maxClusterRadius={45}
+      defaultIconCreateFunction={(cluster) => clusterIcon(cluster)}
     >
       <div>
         {points.map((point) => {
@@ -30,7 +41,7 @@ const PointsCluster = ({ points, searchResult }) => {
                       ? point.properties.placeName
                       : "No Name Found"}
                     <button
-                      className="popup-button"
+                      className='popup-button'
                       onClick={() => setShow(true)}
                     >
                       More Info
@@ -62,7 +73,7 @@ const PointsCluster = ({ points, searchResult }) => {
                   </h4>
                   <br></br>
                   <button
-                    className="popup-button"
+                    className='popup-button'
                     onClick={() => setShow(true)}
                   >
                     Click for more info
