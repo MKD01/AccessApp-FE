@@ -10,6 +10,7 @@ import {
   Card,
   Form,
   ModalTitle,
+  Alert,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 
@@ -65,6 +66,10 @@ const Login = () => {
             height="300"
           ></img>
         </center>
+        <Alert variant="info">
+          <b>Demo: </b>For demo purposes please log in as <strong>joe</strong>{" "}
+          with password <strong>admin</strong>.
+        </Alert>
         <Card className="login-card">
           <ModalHeader className="login-header">
             <ModalTitle>
