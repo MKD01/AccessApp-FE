@@ -19,7 +19,9 @@ const PointsCluster = ({ points, searchResult }) => {
       iconSize: new L.Point(40, 40),
     });
   };
+
   const map = useMap();
+
   return (
     <MarkerClusterGroup
       showCoverageOnHover={true}
@@ -35,7 +37,7 @@ const PointsCluster = ({ points, searchResult }) => {
               <div key={point.properties.placeId}>
                 <Marker
                   key={point.properties.placeId}
-                  className="marker"
+                  className='marker'
                   eventHandlers={{
                     click: () => {
                       map.flyTo([
@@ -55,7 +57,7 @@ const PointsCluster = ({ points, searchResult }) => {
                         ? point.properties.placeName
                         : "No Name Found"}
                     </h4>
-                    <Button variant="secondary" onClick={() => setShow(true)}>
+                    <Button variant='secondary' onClick={() => setShow(true)}>
                       Click for more info
                     </Button>
                     <CustomModal
@@ -92,7 +94,7 @@ const PointsCluster = ({ points, searchResult }) => {
                       : "No Name Found"}
                   </h4>
                   <br></br>
-                  <Button variant="secondary" onClick={() => setShow(true)}>
+                  <Button variant='secondary' onClick={() => setShow(true)}>
                     Click for more info
                   </Button>
                   <CustomModal
