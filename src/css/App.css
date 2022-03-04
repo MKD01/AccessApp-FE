@@ -12,6 +12,12 @@ body {
   background-color: rgb(210, 202, 212);
 }
 
+#login-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .loginPage {
   width: 100vw;
   height: 80vh;
@@ -23,14 +29,6 @@ body {
 #login-form {
   text-align: center;
   padding: 1rem;
-}
-
-.password-box {
-  margin-top: 0.6rem;
-}
-
-.mb-3.input-group {
-  justify-content: center;
 }
 
 .login-card {
@@ -57,9 +55,10 @@ body {
 }
 
 #footer {
-  margin-top: 87vh;
-  margin-left: 0.4rem;
-  position: absolute;
+  margin: 0.4rem 0.4rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   z-index: 1002;
 }
 
@@ -75,6 +74,9 @@ body {
 .leaflet-container {
   width: 100vw;
   height: 92vh;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 
 .leaflet-div-icon {
@@ -127,4 +129,17 @@ body {
   text-align: center;
   border: 1px solid transparent;
   border-radius: 0.2rem;
+}
+
+@media only screen and (min-width: 380px) {
+  #login-content {
+    margin: auto;
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 450px) {
+  .user-location-buttons {
+    margin-right: 0.6rem;
+  }
 }
