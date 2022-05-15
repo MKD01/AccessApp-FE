@@ -16,7 +16,7 @@
 # Back-End
 
 - **Back-End - Hosted version Link:** https://accessapp-be.herokuapp.com/api/
-- **Back-End - Git-Hub Repo Link:** https://github.com/leekli/AccessApp-BE
+- **Back-End - Git-Hub Repo Link:** https://github.com/MKD01/accessapp-be
 
 # Description
 
