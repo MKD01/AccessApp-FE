@@ -2,7 +2,7 @@ import axios from "axios";
 
 // API query for app Backend
 const BEapi = axios.create({
-  baseURL: "https://accessapp-be.herokuapp.com/api/",
+  baseURL: "https://accessapp-be.onrender.com/api/",
 });
 
 // GET Requests
