@@ -10,12 +10,12 @@
 
 # Front-End
 
-- **Front-End - Hosted version Link:** https://inclusive-manchester.netlify.app/
+- **Front-End - Hosted version Link:** https://inclusive-manchester-accessapp.netlify.app/
 - **Front-End - Git-Hub Repo Link:** https://github.com/MKD01/accessapp-fe
 
 # Back-End
 
-- **Back-End - Hosted version Link:** https://accessapp-be.herokuapp.com/api/
+- **Back-End - Hosted version Link:** https://accessapp-be.onrender.com/api
 - **Back-End - Git-Hub Repo Link:** https://github.com/MKD01/accessapp-be
 
 # Description
@@ -26,7 +26,7 @@ This is a front-end React application which connects to the backend API & databa
 
 Built using React.js, and styled with the React-Bootstrap UI kit. It uses the React-leaflet framework to display and interact with mapping technology.
 
-There is a back-end API version of this app, which it connects to and interacts with the database, available at: https://accessapp-be.herokuapp.com/api/
+There is a back-end API version of this app, which it connects to and interacts with the database, available at: https://accessapp-be.onrender.com/api
 
 # How to run this project locally
 
