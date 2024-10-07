@@ -1,7 +1,6 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/User.js";
 import { useNavigate } from "react-router-dom";
-import { getUsers } from "../../utils/be-api.js";
 import mainLogo from "../../img/logo.png";
 import {
   FormControl,
@@ -13,7 +12,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
-import { SyncLoader } from "react-spinners";
+import Loader from "../Loader/Loader.jsx";
 
 const Login = () => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -47,7 +46,7 @@ const Login = () => {
   };
 
   if (isUserLoading) {
-    return <SyncLoader />;
+    return <Loader />;
   }
 
   return (

@@ -10,15 +10,14 @@ import PointsCluster from "./PointsCluster.js";
 import { CoordinatesRefactoring } from "../../utils/DataRefactoring.js";
 import UserLocation from "./UserLocation.js";
 import UserLocationButtons from "./UserLocationButtons.js";
-import { SyncLoader } from "react-spinners";
+import Loader from "../Loader/Loader.jsx";
 
 function MainMap() {
   const [userLocationVisibility, setUserLocationVisibility] = useState(true);
   const [searchResult, setSearchResult] = useState("");
+  const { user, isUserLoading } = useContext(UserContext);
 
   const userPos = [53.4833, -2.24478];
-
-  const { user, isUserLoading } = useContext(UserContext);
 
   const points = geoJsonData.features.map((place) => {
     return {
@@ -36,7 +35,7 @@ function MainMap() {
   });
 
   if (isUserLoading) {
-    return <SyncLoader />;
+    return <Loader />;
   }
 
   if (!user) {
