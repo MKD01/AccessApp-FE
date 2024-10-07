@@ -170,7 +170,6 @@ const CustomModal = ({ show, handleClose, id }) => {
         {venueItems.comments.length > 0 ? (
           <ul>
             {venueItems.comments.map((comment) => {
-              console.log(comment);
               return (
                 <div key={comment._id}>
                   <ListGroup>
