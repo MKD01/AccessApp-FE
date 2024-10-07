@@ -16,50 +16,37 @@ import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { SyncLoader } from "react-spinners";
 
 const Login = () => {
-  const [newUsername, setNewUsername] = useState("");
-  const [userList, setUserList] = useState([]);
-  const { setLoggedInUser } = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getUsers().then((data) => {
-      setUserList(data);
-      setIsLoading(false);
-    });
-  }, []);
+  const [usernameInput, setUsernameInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const { setUser, userList, isUserLoading } = useContext(UserContext);
 
   let navigate = useNavigate();
 
-  const routeChange = (path) => {
-    navigate(path);
-  };
-
-  const handleUsernameChange = (event) => {
-    setNewUsername(event.target.value);
+  const handleChange = (stateToUpdate, value) => {
+    stateToUpdate(value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const checkUsername = (userList) => userList.username === newUsername;
+    const isValidUser = userList.some(
+      (userList) => userList.username === usernameInput
+    );
 
-    if (userList.some(checkUsername) === true) {
-      userList.forEach((eachUser) => {
-        if (eachUser.username === newUsername) {
-          setLoggedInUser({ username: newUsername });
-          localStorage.setItem("username", JSON.stringify(newUsername));
-          localStorage.setItem("isLoggedIn", true);
-          setNewUsername("");
-          routeChange(`/map`);
-        }
-      });
-    } else {
+    if (isValidUser === false) {
       alert("Username does not exist, please try again");
+      setPasswordInput("");
+      return;
     }
+
+    setUser(usernameInput);
+    localStorage.setItem("username", usernameInput);
+    setUsernameInput("");
+    setPasswordInput("");
+    navigate(`/map`);
   };
 
-  if (isLoading) {
+  if (isUserLoading) {
     return <SyncLoader />;
   }
 
@@ -95,8 +82,10 @@ const Login = () => {
                     aria-describedby='basic-addon2'
                     name='Login__textbox'
                     id='Login__textbox'
-                    value={newUsername}
-                    onChange={handleUsernameChange}
+                    value={usernameInput}
+                    onChange={(e) =>
+                      handleChange(setUsernameInput, e.target.value)
+                    }
                     placeholder='Enter Username'
                     required
                   />
@@ -109,9 +98,13 @@ const Login = () => {
                     name='Login__textbox'
                     placeholder='Enter Password'
                     required
+                    value={passwordInput}
+                    onChange={(e) =>
+                      handleChange(setPasswordInput, e.target.value)
+                    }
                   />
                 </Form.Label>
-                <br></br>{" "}
+                <br></br>
                 <Button variant='secondary' type='submit'>
                   Log in
                 </Button>

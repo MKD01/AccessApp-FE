@@ -5,9 +5,7 @@ import { Navbar, Container, Button } from "react-bootstrap";
 import mainLogo from "../../img/logo.png";
 
 const Nav = () => {
-  const { setLoggedInUser, isLoggedIn } = useContext(UserContext);
-  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
-  const username = JSON.parse(localStorage.getItem("username"));
+  const { setUser, user } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -17,55 +15,37 @@ const Nav = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("username");
-    localStorage.removeItem("isLoggedIn");
-    setLoggedInUser({ username: undefined });
-    alert("You are now logged out.");
+    setUser("");
     routeChange("/");
+    alert("You are now logged out.");
   };
 
-  if (isLoggedIn === true || LoggedInCheck === true) {
-    return (
-      <>
-        <Navbar bg='dark' variant='dark'>
-          <Container>
-            <Navbar.Brand href='#home'>
-              <img
-                alt=''
-                src={mainLogo}
-                width='50'
-                height='50'
-                className='d-inline-block align-top'
-              />{" "}
-              Inclusive Manchester
-            </Navbar.Brand>
-            <Navbar.Text>Hi, {username}!</Navbar.Text>
-            <Button variant='secondary' onClick={() => handleLogout()}>
-              Logout
-            </Button>
-          </Container>
-        </Navbar>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Navbar bg='dark' variant='dark'>
-          <Container>
-            <Navbar.Brand href='#home'>
-              <img
-                alt=''
-                src={mainLogo}
-                width='50'
-                height='50'
-                className='d-inline-block align-top'
-              />{" "}
-              Inclusive Manchester
-            </Navbar.Brand>
-          </Container>
-        </Navbar>
-      </>
-    );
-  }
+  return (
+    <>
+      <Navbar bg='dark' variant='dark'>
+        <Container>
+          <Navbar.Brand href='#home'>
+            <img
+              alt=''
+              src={mainLogo}
+              width='50'
+              height='50'
+              className='d-inline-block align-top'
+            />
+            Inclusive Manchester
+          </Navbar.Brand>
+          {user && (
+            <>
+              <Navbar.Text>Hi, {user}!</Navbar.Text>
+              <Button variant='secondary' onClick={() => handleLogout()}>
+                Logout
+              </Button>
+            </>
+          )}
+        </Container>
+      </Navbar>
+    </>
+  );
 };
 
 export default Nav;

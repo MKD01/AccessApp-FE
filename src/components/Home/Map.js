@@ -10,6 +10,7 @@ import PointsCluster from "./PointsCluster.js";
 import { CoordinatesRefactoring } from "../../utils/DataRefactoring.js";
 import UserLocation from "./UserLocation.js";
 import UserLocationButtons from "./UserLocationButtons.js";
+import { SyncLoader } from "react-spinners";
 
 function MainMap() {
   const [userLocationVisibility, setUserLocationVisibility] = useState(true);
@@ -17,8 +18,7 @@ function MainMap() {
 
   const userPos = [53.4833, -2.24478];
 
-  const { isLoggedIn } = useContext(UserContext);
-  const LoggedInCheck = JSON.parse(localStorage.getItem("isLoggedIn"));
+  const { user, isUserLoading } = useContext(UserContext);
 
   const points = geoJsonData.features.map((place) => {
     return {
@@ -35,7 +35,11 @@ function MainMap() {
     };
   });
 
-  if (!isLoggedIn && !LoggedInCheck) {
+  if (isUserLoading) {
+    return <SyncLoader />;
+  }
+
+  if (!user) {
     return <NotLoggedInError />;
   }
 
