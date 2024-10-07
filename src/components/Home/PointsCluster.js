@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import CustomModal from "./CustomModal";
+import CustomModal from "../Modal/CustomModal";
 import Button from "react-bootstrap/Button";
 import L from "leaflet";
 

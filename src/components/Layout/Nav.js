@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../contexts/User.js";
+import { UserContext } from "../../contexts/User.js";
 import { Navbar, Container, Button } from "react-bootstrap";
-import mainLogo from "../img/logo.png";
+import mainLogo from "../../img/logo.png";
 
 const Nav = () => {
   const { setLoggedInUser, isLoggedIn } = useContext(UserContext);

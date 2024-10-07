@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { postCommentToVenueById } from "../utils/be-api.js";
-import { UserContext } from "../contexts/User";
+import { postCommentToVenueById } from "../../utils/be-api.js";
+import { UserContext } from "../../contexts/User.js";
 import NotLoggedInError from "./NotLoggedInError.js";
 
 const CreateNewComment = ({ id, setComments }) => {
@@ -31,19 +31,19 @@ const CreateNewComment = ({ id, setComments }) => {
   if (isLoggedIn === true || LoggedInCheck === true) {
     return (
       <>
-        <div className="commentBox" onSubmit={handleSubmit}>
+        <div className='commentBox' onSubmit={handleSubmit}>
           <form>
-            <label htmlFor="commentBox"></label>
+            <label htmlFor='commentBox'></label>
             <input
-              type="text"
-              id="commentBox"
-              name="commentBox"
-              placeholder="Type your comment here..."
+              type='text'
+              id='commentBox'
+              name='commentBox'
+              placeholder='Type your comment here...'
               value={newComment}
               onChange={handleCommentChange}
               required
             ></input>
-            <button type="submit">Submit Comment</button>
+            <button type='submit'>Submit Comment</button>
           </form>
         </div>
       </>

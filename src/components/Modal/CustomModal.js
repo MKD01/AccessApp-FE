@@ -7,7 +7,7 @@ import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
-import "../css/CustomModal.css";
+import "../../css/CustomModal.css";
 import moment from "moment";
 import {
   getVenueInfoById,
@@ -15,7 +15,7 @@ import {
   patchEqualityRatingById,
   patchAttitudeRatingById,
   postCommentToVenueById,
-} from "../utils/be-api.js";
+} from "../../utils/be-api.js";
 import ConfirmButton from "./ConfirmButton.js";
 import ExpandableButton from "./ExpandableButton.js";
 import { SyncLoader } from "react-spinners";

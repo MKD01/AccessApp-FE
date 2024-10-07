@@ -1,8 +1,8 @@
 import { useEffect, useContext, useState } from "react";
-import { UserContext } from "../contexts/User.js";
+import { UserContext } from "../../contexts/User.js";
 import { useNavigate } from "react-router-dom";
-import { getUsers } from "../utils/be-api.js";
-import mainLogo from "../img/logo.png";
+import { getUsers } from "../../utils/be-api.js";
+import mainLogo from "../../img/logo.png";
 import {
   FormControl,
   Button,

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import userIconImg from "../img/UserIcon.png";
+import userIconImg from "../../img/UserIcon.png";
 
 const UserLocation = ({ pos }) => {
   const [zoom, setZoom] = useState(19);
