@@ -11,7 +11,7 @@ const Loader = () => {
       setMessage(
         "The app can take up to 50 seconds to load as the backend api is hosted on the free tier of render"
       );
-    }, 2000);
+    }, 5000);
 
     if (!isUserLoading) {
       clearTimeout(timeoutID);
