@@ -13,15 +13,19 @@ import {
   Alert,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
+import { SyncLoader } from "react-spinners";
 
 const Login = () => {
   const [newUsername, setNewUsername] = useState("");
   const [userList, setUserList] = useState([]);
   const { setLoggedInUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     getUsers().then((data) => {
       setUserList(data);
+      setIsLoading(false);
     });
   }, []);
 
@@ -54,6 +58,10 @@ const Login = () => {
       alert("Username does not exist, please try again");
     }
   };
+
+  if (isLoading) {
+    return <SyncLoader />;
+  }
 
   return (
     <div className='loginPage'>
