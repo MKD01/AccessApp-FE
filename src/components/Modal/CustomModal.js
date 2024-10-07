@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
@@ -19,28 +19,29 @@ import {
 import ConfirmButton from "./ConfirmButton.js";
 import ExpandableButton from "./ExpandableButton.js";
 import { SyncLoader } from "react-spinners";
+import { UserContext } from "../../contexts/User.js";
 
 const CustomModal = ({ show, handleClose, id }) => {
   const [venueItems, setVenueItems] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
-  const [update, setUpdate] = useState(false);
-
-  // expandable button
   const [isOpen, setIsOpen] = useState(false);
-
-  // confirm button
   const [confirmCount, setConfirmCount] = useState({});
-
-  // user context
-  const username = JSON.parse(localStorage.getItem("username"));
-
-  // states for radio buttons
   const [accessState, setAccessState] = useState(null);
   const [equalityState, setEqualityState] = useState(null);
   const [attitudeState, setAttitudeState] = useState(null);
+  const { user } = useContext(UserContext);
 
-  const setId = (id) => {
+  useEffect(() => {
+    setIsLoading(true);
+
+    getVenueInfoById(getId(id)).then((res) => {
+      setVenueItems(res);
+      setIsLoading(false);
+    });
+  }, [id]);
+
+  const getId = (id) => {
     const splitId = id.split("/");
     return splitId[1];
   };
@@ -65,51 +66,41 @@ const CustomModal = ({ show, handleClose, id }) => {
     const equalityRating = { equality_ratings: equalityState };
     const attitudeRating = { attitude_ratings: attitudeState };
     const commentForSubmit = {
-      author: username,
+      author: user,
       body: newComment,
       total_confirmed_votes: 0,
     };
 
-    patchAccessRatingById(setId(id), accessRating).then(() => {
-      patchEqualityRatingById(setId(id), equalityRating).then(() => {
-        patchAttitudeRatingById(setId(id), attitudeRating).then(() => {
-          postCommentToVenueById(setId(id), commentForSubmit).then(() => {
-            setAccessState(null);
-            setEqualityState(null);
-            setAttitudeState(null);
-            setNewComment("");
-            setUpdate((currVal) => !currVal);
-          });
-        });
-      });
+    const requests = [
+      patchAccessRatingById(getId(id), accessRating),
+      patchEqualityRatingById(getId(id), equalityRating),
+      patchAttitudeRatingById(getId(id), attitudeRating),
+      postCommentToVenueById(getId(id), commentForSubmit),
+    ];
+
+    Promise.all([...requests]).then(() => {
+      setAccessState(null);
+      setEqualityState(null);
+      setAttitudeState(null);
+      setNewComment("");
     });
 
     setIsOpen(false);
   };
 
-  useEffect(() => {
-    if (update) {
-      setUpdate((currVal) => !currVal);
-    }
-    getVenueInfoById(setId(id)).then((res) => {
-      setVenueItems(res);
-      setIsLoading(false);
-    });
-  }, [id, update]);
-
-  function average(val, arr) {
+  const getAverage = (val, arr) => {
     let total = 0;
     let count = 0;
 
     if (!Array.isArray(val)) {
       arr.push(+val);
 
-      arr.forEach(function (item, index) {
+      arr.forEach((item) => {
         total += item;
         count++;
       });
     } else {
-      val.forEach(function (item, index) {
+      val.forEach((item) => {
         total += item;
         count++;
       });
@@ -130,24 +121,16 @@ const CustomModal = ({ show, handleClose, id }) => {
     } else if (final === 0) {
       return "★★★★★";
     }
-  }
+  };
 
   if (isLoading) return <SyncLoader />;
 
   return (
-    <Modal
-      show={show}
-      onHide={() => {
-        setIsLoading(true);
-        handleClose();
-      }}
-      centered
-      size='lg'
-    >
+    <Modal show={show} onHide={handleClose} centered size='lg'>
       <ModalHeader className='modalHeader' closeButton>
         <ModalTitle>
           <h2>{venueItems.name}</h2>
-        </ModalTitle>{" "}
+        </ModalTitle>
         <br />
       </ModalHeader>
       <ModalBody className='modalBody'>
@@ -158,19 +141,19 @@ const CustomModal = ({ show, handleClose, id }) => {
               <ListGroup.Item variant='dark'>
                 <strong>Average General Accessibility rating: </strong>
                 <br></br>
-                {average(venueItems.accessibility_ratings)}
+                {getAverage(venueItems.accessibility_ratings)}
               </ListGroup.Item>
               <br></br>
               <ListGroup.Item variant='dark'>
                 <strong>Average Equality rating: </strong>
                 <br></br>
-                {average(venueItems.equality_ratings)}
+                {getAverage(venueItems.equality_ratings)}
               </ListGroup.Item>
               <br></br>
               <ListGroup.Item variant='dark'>
                 <strong>Average Attitude rating: </strong>
                 <br></br>
-                {average(venueItems.attitude_ratings)}
+                {getAverage(venueItems.attitude_ratings)}
               </ListGroup.Item>
             </ListGroup>
           ) : (
@@ -186,36 +169,37 @@ const CustomModal = ({ show, handleClose, id }) => {
         <h4>Comments about {venueItems.name || "this location"}:</h4>
         {venueItems.comments.length > 0 ? (
           <ul>
-            {venueItems.comments.map((comments) => {
+            {venueItems.comments.map((comment) => {
+              console.log(comment);
               return (
-                <>
+                <div key={comment._id}>
                   <ListGroup>
-                    <ListGroup.Item variant='dark' key={comments._id}>
+                    <ListGroup.Item variant='dark' key={comment._id}>
                       <strong>Author: </strong>
-                      {comments.author}
+                      {comment.author}
                       <br></br>
                       <strong>Posted: </strong>
-                      {moment(comments.commentDate).format("MMM Do YYYY")}
+                      {moment(comment.commentDate).format("MMM Do YYYY")}
                       <br></br>
                       <strong>Comment confirmed: </strong>
-                      {comments.total_confirmed_votes +
-                        (confirmCount[comments._id]
-                          ? confirmCount[comments._id]
+                      {comment.total_confirmed_votes +
+                        (confirmCount[comment._id]
+                          ? confirmCount[comment._id]
                           : 0)}{" "}
                       times
                       <hr />
-                      {comments.body}
+                      {comment.body}
                       <br></br>
                       <br></br>
                       <ConfirmButton
                         setConfirmCount={setConfirmCount}
-                        total_confirmed_votes={comments.total_confirmed_votes}
-                        id={comments._id}
+                        total_confirmed_votes={comment.total_confirmed_votes}
+                        id={comment._id}
                       />
                     </ListGroup.Item>
                   </ListGroup>
                   <br />
-                </>
+                </div>
               );
             })}
           </ul>
@@ -233,7 +217,7 @@ const CustomModal = ({ show, handleClose, id }) => {
         <p>
           <b>
             Please add to our information for{" "}
-            {venueItems.name || "this location"}:{" "}
+            {venueItems.name || "this location"}:
           </b>
         </p>
         <ExpandableButton isOpen={isOpen} setIsOpen={setIsOpen}>
