@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { postCommentToVenueById } from "../../utils/be-api.js";
-import { UserContext } from "../../contexts/User.js";
-import NotLoggedInError from "./NotLoggedInError.js";
+import { useState, useContext } from "react";
+import { postCommentToVenueById } from "../../utils/be-api";
+import { UserContext } from "../../contexts/User";
+import NotLoggedInError from "./NotLoggedInError";
 
 const CreateNewComment = ({ id, setComments }) => {
   const [newComment, setNewComment] = useState("");

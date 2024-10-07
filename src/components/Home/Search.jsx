@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FormControl, InputGroup, Button } from "react-bootstrap";
 
 const Search = ({ setSearchResult }) => {
@@ -16,17 +16,17 @@ const Search = ({ setSearchResult }) => {
 
   return (
     <>
-      <div className="search-form">
+      <div className='search-form'>
         <form onSubmit={handleSubmit}>
-          <InputGroup className="mb-3">
+          <InputGroup className='mb-3'>
             <FormControl
               value={searchTerm}
-              id="search"
-              placeholder="Location"
-              aria-describedby="basic-addon2"
+              id='search'
+              placeholder='Location'
+              aria-describedby='basic-addon2'
               onChange={handleChange}
             ></FormControl>
-            <Button type="submit" variant="secondary" id="button-addon2">
+            <Button type='submit' variant='secondary' id='button-addon2'>
               Search
             </Button>
           </InputGroup>

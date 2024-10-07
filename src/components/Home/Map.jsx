@@ -1,16 +1,16 @@
 import { useContext, useState } from "react";
-import Footer from "../Layout/Footer.js";
+import Footer from "../Layout/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import geoJsonData from "../../data/manchesterSmallData.json";
-import { UserContext } from "../../contexts/User.js";
-import NotLoggedInError from "../Errors/NotLoggedInError.js";
-import Search from "./Search.js";
-import PointsCluster from "./PointsCluster.js";
-import { CoordinatesRefactoring } from "../../utils/DataRefactoring.js";
-import UserLocation from "./UserLocation.js";
-import UserLocationButtons from "./UserLocationButtons.js";
-import Loader from "../Loader/Loader.jsx";
+import { UserContext } from "../../contexts/User";
+import NotLoggedInError from "../Errors/NotLoggedInError";
+import Search from "./Search";
+import PointsCluster from "./PointsCluster";
+import { CoordinatesRefactoring } from "../../utils/DataRefactoring";
+import UserLocation from "./UserLocation";
+import UserLocationButtons from "./UserLocationButtons";
+import Loader from "../Loader/Loader";
 
 function MainMap() {
   const [userLocationVisibility, setUserLocationVisibility] = useState(true);

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../contexts/User.js";
+import { UserContext } from "../../contexts/User";
 import { useNavigate } from "react-router-dom";
 import mainLogo from "../../img/logo.png";
 import {
@@ -12,7 +12,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
-import Loader from "../Loader/Loader.jsx";
+import Loader from "../Loader/Loader";
 
 const Login = () => {
   const [usernameInput, setUsernameInput] = useState("");

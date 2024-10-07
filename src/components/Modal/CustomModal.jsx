@@ -15,11 +15,11 @@ import {
   patchEqualityRatingById,
   patchAttitudeRatingById,
   postCommentToVenueById,
-} from "../../utils/be-api.js";
-import ConfirmButton from "./ConfirmButton.js";
-import ExpandableButton from "./ExpandableButton.js";
+} from "../../utils/be-api";
+import ConfirmButton from "./ConfirmButton";
+import ExpandableButton from "./ExpandableButton";
 import { SyncLoader } from "react-spinners";
-import { UserContext } from "../../contexts/User.js";
+import { UserContext } from "../../contexts/User";
 
 const CustomModal = ({ show, handleClose, id }) => {
   const [venueItems, setVenueItems] = useState();

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Alert from "react-bootstrap/Alert";
-import { UserContext } from "../../contexts/User.js";
+import { UserContext } from "../../contexts/User";
 
 const ErrorPage = () => {
   const { isLoggedIn } = useContext(UserContext);

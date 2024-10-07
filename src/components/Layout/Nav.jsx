@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../contexts/User.js";
+import { UserContext } from "../../contexts/User";
 import { Navbar, Container, Button } from "react-bootstrap";
 import mainLogo from "../../img/logo.png";
 
