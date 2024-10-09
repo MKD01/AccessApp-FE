@@ -17,6 +17,14 @@ function MainMap() {
   const [searchResult, setSearchResult] = useState("");
   const { user, isUserLoading } = useContext(UserContext);
 
+  if (isUserLoading) {
+    return <Loader />;
+  }
+
+  if (!user) {
+    return <NotLoggedInError />;
+  }
+
   const userPos = [53.4833, -2.24478];
 
   const points = geoJsonData.features.map((place) => {
@@ -34,13 +42,14 @@ function MainMap() {
     };
   });
 
-  if (isUserLoading) {
-    return <Loader />;
-  }
+  const filteredPoints = points.filter((point) => {
+    if (searchResult) {
+      const searchTest = new RegExp(`^(${searchResult})`, "i");
+      return searchTest.test(point.properties.placeName);
+    }
 
-  if (!user) {
-    return <NotLoggedInError />;
-  }
+    return point;
+  });
 
   return (
     <>
@@ -62,7 +71,7 @@ function MainMap() {
           setUserLocationVisibility={setUserLocationVisibility}
         />
         {userLocationVisibility ? <UserLocation pos={userPos} /> : <></>}
-        <PointsCluster points={points} searchResult={searchResult} />
+        <PointsCluster points={filteredPoints} />
         <Footer />
       </MapContainer>
     </>
