@@ -20,9 +20,10 @@ import ConfirmButton from "./ConfirmButton";
 import ExpandableButton from "./ExpandableButton";
 import { SyncLoader } from "react-spinners";
 import { UserContext } from "../../contexts/User";
+import ModalRatings from "./ModalRatings";
 
 const CustomModal = ({ show, handleClose, id }) => {
-  const [venueItems, setVenueItems] = useState();
+  const [venueInfo, setVenueInfo] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +36,8 @@ const CustomModal = ({ show, handleClose, id }) => {
   useEffect(() => {
     setIsLoading(true);
 
-    getVenueInfoById(getId(id)).then((res) => {
-      setVenueItems(res);
+    getVenueInfoById(getId(id)).then((venueInfo) => {
+      setVenueInfo(venueInfo);
       setIsLoading(false);
     });
   }, [id]);
@@ -88,88 +89,26 @@ const CustomModal = ({ show, handleClose, id }) => {
     setIsOpen(false);
   };
 
-  const getAverage = (val, arr) => {
-    let total = 0;
-    let count = 0;
-
-    if (!Array.isArray(val)) {
-      arr.push(+val);
-
-      arr.forEach((item) => {
-        total += item;
-        count++;
-      });
-    } else {
-      val.forEach((item) => {
-        total += item;
-        count++;
-      });
-    }
-
-    let final = Math.round(total / count);
-
-    if (final === 5) {
-      return "⭐️⭐️⭐️⭐️⭐️";
-    } else if (final === 4) {
-      return "⭐️⭐️⭐️⭐️★";
-    } else if (final === 3) {
-      return "⭐️⭐️⭐️★★";
-    } else if (final === 2) {
-      return "⭐️⭐️★★★";
-    } else if (final === 1) {
-      return "⭐️★★★★";
-    } else if (final === 0) {
-      return "★★★★★";
-    }
-  };
-
   if (isLoading) return <SyncLoader />;
 
   return (
     <Modal show={show} onHide={handleClose} centered size='lg'>
       <ModalHeader className='modalHeader' closeButton>
         <ModalTitle>
-          <h2>{venueItems.name}</h2>
+          <h2>{venueInfo.name}</h2>
         </ModalTitle>
         <br />
       </ModalHeader>
       <ModalBody className='modalBody'>
         <h4>At a glance:</h4>
         <center>
-          {venueItems.accessibility_ratings.length > 0 ? (
-            <ListGroup>
-              <ListGroup.Item variant='dark'>
-                <strong>Average General Accessibility rating: </strong>
-                <br></br>
-                {getAverage(venueItems.accessibility_ratings)}
-              </ListGroup.Item>
-              <br></br>
-              <ListGroup.Item variant='dark'>
-                <strong>Average Equality rating: </strong>
-                <br></br>
-                {getAverage(venueItems.equality_ratings)}
-              </ListGroup.Item>
-              <br></br>
-              <ListGroup.Item variant='dark'>
-                <strong>Average Attitude rating: </strong>
-                <br></br>
-                {getAverage(venueItems.attitude_ratings)}
-              </ListGroup.Item>
-            </ListGroup>
-          ) : (
-            <p>
-              <strong>
-                There are no ratings to show you yet, be the first by reviewing
-                this venue below.
-              </strong>
-            </p>
-          )}
+          <ModalRatings venueInfo={venueInfo} />
         </center>
         <hr></hr>
-        <h4>Comments about {venueItems.name || "this location"}:</h4>
-        {venueItems.comments.length > 0 ? (
+        <h4>Comments about {venueInfo.name || "this location"}:</h4>
+        {venueInfo.comments.length > 0 ? (
           <ul>
-            {venueItems.comments.map((comment) => {
+            {venueInfo.comments.map((comment) => {
               return (
                 <div key={comment._id}>
                   <ListGroup>
@@ -216,7 +155,7 @@ const CustomModal = ({ show, handleClose, id }) => {
         <p>
           <b>
             Please add to our information for{" "}
-            {venueItems.name || "this location"}:
+            {venueInfo.name || "this location"}:
           </b>
         </p>
         <ExpandableButton isOpen={isOpen} setIsOpen={setIsOpen}>
