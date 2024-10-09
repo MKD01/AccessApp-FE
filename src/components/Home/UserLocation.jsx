@@ -7,9 +7,10 @@ const UserLocation = ({ pos }) => {
   const [zoom, setZoom] = useState(19);
 
   const map = useMap();
+  const curZoom = map.getZoom();
 
   const onZoom = useCallback(() => {
-    setZoom(map.getZoom());
+    setZoom(curZoom);
   }, [map]);
 
   useEffect(() => {
