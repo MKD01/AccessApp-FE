@@ -2,14 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import userIconImg from "../../img/UserIcon.png";
+import UserLocationButtons from "./UserLocationButtons";
 
 const UserLocation = ({ pos }) => {
   const [zoom, setZoom] = useState(19);
+  const [showMyLocation, setShowMyLocation] = useState(true);
 
   const map = useMap();
-  const curZoom = map.getZoom();
 
   const onZoom = useCallback(() => {
+    const curZoom = map.getZoom();
     setZoom(curZoom);
   }, [map]);
 
@@ -23,20 +25,23 @@ const UserLocation = ({ pos }) => {
     iconSize: [30, 43],
   });
 
-  return zoom > 13 ? (
-    <Marker
-      eventHandlers={{
-        click: () => {
-          map.flyTo(pos, 19);
-        },
-      }}
-      icon={userLocationIcon}
-      position={pos}
-    >
-      <Popup>Your Location</Popup>
-    </Marker>
-  ) : (
-    <></>
+  return (
+    <>
+      {zoom > 13 && showMyLocation && (
+        <Marker
+          eventHandlers={{
+            click: () => {
+              map.flyTo(pos, 19);
+            },
+          }}
+          icon={userLocationIcon}
+          position={pos}
+        >
+          <Popup>Your Location</Popup>
+        </Marker>
+      )}
+      <UserLocationButtons pos={pos} setShowMyLocation={setShowMyLocation} />
+    </>
   );
 };
 

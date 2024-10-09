@@ -13,7 +13,6 @@ import UserLocationButtons from "./UserLocationButtons";
 import Loader from "../Loader/Loader";
 
 function MainMap() {
-  const [userLocationVisibility, setUserLocationVisibility] = useState(true);
   const [searchResult, setSearchResult] = useState("");
   const { user, isUserLoading } = useContext(UserContext);
 
@@ -66,11 +65,7 @@ function MainMap() {
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
         <Search className='searchbar' setSearchResult={setSearchResult} />
-        <UserLocationButtons
-          pos={userPos}
-          setUserLocationVisibility={setUserLocationVisibility}
-        />
-        {userLocationVisibility ? <UserLocation pos={userPos} /> : <></>}
+        <UserLocation pos={userPos} />
         <PointsCluster points={filteredPoints} />
         <Footer />
       </MapContainer>

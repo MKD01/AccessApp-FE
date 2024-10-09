@@ -2,9 +2,9 @@ import { Button } from "react-bootstrap";
 import React from "react";
 import { useMap } from "react-leaflet";
 
-const UserLocationButtons = ({ pos, setUserLocationVisibility }) => {
+const UserLocationButtons = ({ pos, setShowMyLocation }) => {
   const handleUserLocationVisibility = () => {
-    setUserLocationVisibility((currVisibility) => !currVisibility);
+    setShowMyLocation((currVal) => !currVal);
   };
 
   const map = useMap();
@@ -16,18 +16,24 @@ const UserLocationButtons = ({ pos, setUserLocationVisibility }) => {
   return (
     <div className='user-location-buttons'>
       <Button
-        className='show-hide-location'
+        className='location-button'
         variant='light'
         onClick={HandleUserLocation}
+        data-toggle='tooltip'
+        data-placement='left'
+        title='Go To My Location'
       >
-        📍
+        <i className='bi bi-crosshair'></i>
       </Button>
       <Button
-        className='show-hide-location'
+        className='location-button'
         variant='light'
         onClick={handleUserLocationVisibility}
+        data-toggle='tooltip'
+        data-placement='left'
+        title='Show/Hide My Location'
       >
-        📌
+        <i className='bi bi-pin-map'></i>
       </Button>
     </div>
   );
