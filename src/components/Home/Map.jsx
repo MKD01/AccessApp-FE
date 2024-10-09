@@ -9,7 +9,6 @@ import Search from "./Search";
 import PointsCluster from "./PointsCluster";
 import { CoordinatesRefactoring } from "../../utils/DataRefactoring";
 import UserLocation from "./UserLocation";
-import UserLocationButtons from "./UserLocationButtons";
 import Loader from "../Loader/Loader";
 
 function MainMap() {
