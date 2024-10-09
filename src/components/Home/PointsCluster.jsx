@@ -26,7 +26,9 @@ const PointsCluster = ({ points }) => {
     >
       <div>
         {points.map((point) => {
-          return <Pointer point={point} map={map} />;
+          return (
+            <Pointer key={point.properties.placeId} point={point} map={map} />
+          );
         })}
       </div>
     </MarkerClusterGroup>

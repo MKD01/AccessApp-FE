@@ -8,40 +8,35 @@ const Pointer = ({ point, map }) => {
   const handleClose = () => setShow(false);
 
   return (
-    <div key={point.properties.placeId}>
-      <Marker
-        key={point.properties.placeId}
-        className='marker'
-        eventHandlers={{
-          click: () => {
-            map.flyTo([
-              point.geometry.coordinates[1],
-              point.geometry.coordinates[0],
-            ]);
-          },
-        }}
-        position={[
-          point.geometry.coordinates[1],
-          point.geometry.coordinates[0],
-        ]}
-      >
-        <Popup>
-          <h4>
-            {point.properties.placeName
-              ? point.properties.placeName
-              : "No Name Found"}
-          </h4>
-          <Button variant='secondary' onClick={() => setShow(true)}>
-            Click for more info
-          </Button>
-          <CustomModal
-            show={show}
-            handleClose={handleClose}
-            id={point.properties.placeId}
-          />
-        </Popup>
-      </Marker>
-    </div>
+    <Marker
+      key={point.properties.placeId}
+      className='marker'
+      eventHandlers={{
+        click: () => {
+          map.flyTo([
+            point.geometry.coordinates[1],
+            point.geometry.coordinates[0],
+          ]);
+        },
+      }}
+      position={[point.geometry.coordinates[1], point.geometry.coordinates[0]]}
+    >
+      <Popup>
+        <h4>
+          {point.properties.placeName
+            ? point.properties.placeName
+            : "No Name Found"}
+        </h4>
+        <Button variant='secondary' onClick={() => setShow(true)}>
+          Click for more info
+        </Button>
+        <CustomModal
+          show={show}
+          handleClose={handleClose}
+          id={point.properties.placeId}
+        />
+      </Popup>
+    </Marker>
   );
 };
 
